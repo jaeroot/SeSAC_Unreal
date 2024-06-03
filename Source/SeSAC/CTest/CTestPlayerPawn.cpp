@@ -39,7 +39,7 @@ ACTestPlayerPawn::ACTestPlayerPawn()
 void ACTestPlayerPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 void ACTestPlayerPawn::Tick(float DeltaTime)
