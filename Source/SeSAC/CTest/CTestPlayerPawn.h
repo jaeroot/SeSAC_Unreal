@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "EngineMinimal.h"
+#include "SeSAC/GameInfo.h"
 #include "GameFramework/Pawn.h"
 #include "CTestPlayerPawn.generated.h"
 
