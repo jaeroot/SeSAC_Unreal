@@ -55,7 +55,7 @@ void AMiroDoor::CollisionBeginOverlap(UPrimitiveComponent* OverlappedComponent, 
 	auto Character = Cast<ACharacter>(OtherActor);
 	if (Character != nullptr)
 	{
-		auto result = FVector::DotProduct(GetActorForwardVector(), Character->GetActorForwardVector());
+		auto result = FVector::DotProduct(GetActorForwardVector(), Character->GetActorLocation() - GetActorLocation());
 		if (result >= 0)
 		{
 			bIsFront = true;

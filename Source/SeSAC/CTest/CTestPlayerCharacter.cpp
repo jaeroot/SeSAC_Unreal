@@ -152,6 +152,9 @@ void ACTestPlayerCharacter::AttackAction()
 	FVector Loc = GetActorLocation() + GetActorForwardVector() * 100;
 	FRotator Rot = GetActorRotation();
 	GetWorld()->SpawnActor<AActor>(mAttackClass, Loc, Rot, Param);
+
+	auto Montage = LoadObject<UAnimMontage>(nullptr, TEXT("/Script/Engine.AnimMontage'/Game/ParagonGideon/Characters/Heroes/Gideon/Animations/Primary_Attack_A_Medium_Montage.Primary_Attack_A_Medium_Montage'"));	
+	PlayAnimMontage(Montage);
 	// GetWorld()->SpawnActor<ACTestPlayerPawn>(GetActorLocation(), GetActorRotation());
 }
 
