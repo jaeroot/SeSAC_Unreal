@@ -26,4 +26,5 @@ public:
 	UInputAction* mRotation = nullptr;
 	UInputAction* mAttack = nullptr;
 	UInputAction* mShield = nullptr;
+	UInputAction* mTripleShot = nullptr;
 };

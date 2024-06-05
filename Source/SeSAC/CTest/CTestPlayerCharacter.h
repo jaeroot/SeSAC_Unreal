@@ -27,6 +27,7 @@ protected:
 	void RotationAction(const FInputActionValue& Value);
 	void AttackAction();
 	void ShieldAction();
+	void TripleShotAction();
 
 public:
 
@@ -50,4 +51,5 @@ protected:
 private:
 	bool bShieldEnable = true;
 	float ShieldTime = 0.0f;
+	float ShieldCoolDown = 6.0f;
 };

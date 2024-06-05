@@ -2,6 +2,8 @@
 
 
 #include "CTestPlayerCharacter.h"
+
+#include "CTestShield.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputData.h"
@@ -38,14 +40,15 @@ ACTestPlayerCharacter::ACTestPlayerCharacter()
 	// Set Control Rotation
 	bUseControllerRotationYaw = true;
 	mArm->bUsePawnControlRotation = true;
-
-	// Set Rotating Movement Component
-	mRotatingMovementComponent = CreateDefaultSubobject<URotatingMovementComponent>(TEXT("RotatingMovementComponent"));
-	mRotatingMovementComponent->RotationRate = { 0.0f, 180.0f, 0.0f};
 	
 	// Set Rotation Scene Component
 	mRotation = CreateDefaultSubobject<USceneComponent>(TEXT("Rotation"));
 	mRotation->SetupAttachment(RootComponent);
+
+	// Set Rotating Movement Component
+	mRotatingMovementComponent = CreateDefaultSubobject<URotatingMovementComponent>(TEXT("RotatingMovementComponent"));
+	mRotatingMovementComponent->RotationRate = { 0.0f, 180.0f, 0.0f};
+	mRotatingMovementComponent->SetUpdatedComponent(mRotation);
 
 	// Set Anim Blueprint
 	static ConstructorHelpers::FClassFinder<UAnimInstance>
@@ -79,7 +82,6 @@ void ACTestPlayerCharacter::BeginPlay()
 		Subsystem->AddMappingContext(InputData->mDefaultContext, 0);
 	}
 
-	mRotatingMovementComponent->SetUpdatedComponent(mRotation);
 
 	mShieldClass = LoadClass<AActor>(nullptr, TEXT("/Game/Test/TestBlueprint/BP_TestShield.BP_TestShield_C"));
 }
@@ -88,14 +90,15 @@ void ACTestPlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	// 사용 불가능 상태일때 시간 계산
 	if (!bShieldEnable)
 	{
 		ShieldTime += DeltaTime;
 
-		if (ShieldTime >= 6.0f)
+		if (ShieldTime >= ShieldCoolDown)
 		{
+			mRotatingMovementComponent->Deactivate();
 			bShieldEnable = true;
-			ShieldTime = 0.0f;
 		}
 	}
 }
@@ -114,6 +117,7 @@ void ACTestPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 		EnhancedInputComponent->BindAction(InputData->mRotation, ETriggerEvent::Triggered, this, &ACTestPlayerCharacter::RotationAction);
 		EnhancedInputComponent->BindAction(InputData->mAttack, ETriggerEvent::Started, this, &ACTestPlayerCharacter::AttackAction);
 		EnhancedInputComponent->BindAction(InputData->mShield, ETriggerEvent::Started, this, &ACTestPlayerCharacter::ShieldAction);
+		EnhancedInputComponent->BindAction(InputData->mTripleShot, ETriggerEvent::Started, this, &ACTestPlayerCharacter::TripleShotAction);
 	}
 }
 
@@ -141,39 +145,38 @@ void ACTestPlayerCharacter::AttackAction()
 {
 	FActorSpawnParameters Param;
 	Param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::Undefined;
-	for (int i = -1; i <= 1; i++)
-	{
-		FVector Loc = GetActorLocation() + GetActorForwardVector() * 100;
-		Loc += GetActorRightVector() * 50 * i;
-		
-		FRotator Rot = GetActorRotation();
-		Rot.Yaw += 10.0f * i;
-		
-		GetWorld()->SpawnActor<AActor>(mAttackClass, Loc, Rot, Param);
-	}
+	FVector Loc = GetActorLocation() + GetActorForwardVector() * 100;
+	FRotator Rot = GetActorRotation();
+	GetWorld()->SpawnActor<AActor>(mAttackClass, Loc, Rot, Param);
 	// GetWorld()->SpawnActor<ACTestPlayerPawn>(GetActorLocation(), GetActorRotation());
 }
 
 void ACTestPlayerCharacter::ShieldAction()
 {
+	// 사용 불가능 상태일 경우 처리 없이 반환
 	if (!bShieldEnable)
 	{
 		return;
 	}
-	
+
+	// 사용 불가능 상태로 만들어줌
+	bShieldEnable = false;
+	// 시간 계산을 시작해야 하기 때문에 0으로 초기화
+	ShieldTime = 0.0f;
+	mRotatingMovementComponent->Activate();
+
+	// Relative Transform
 	if (!mShieldClass)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Unidentified Shield Class"));
 		return;
 	}
 	
-	bShieldEnable = false;
-	
 	constexpr int ShieldCount = 4;
 	constexpr float ShieldRange = 200.0f;
 	
-	int ShieldForward[ShieldCount] = { 1, 0, -1, 0 };
-	int ShieldRight[ShieldCount] = { 0, 1, 0, -1 };
+	static int ShieldForward[ShieldCount] = { 1, 0, -1, 0 };
+	static int ShieldRight[ShieldCount] = { 0, 1, 0, -1 };
 	
 	FActorSpawnParameters Param;
 	Param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::Undefined;
@@ -188,5 +191,57 @@ void ACTestPlayerCharacter::ShieldAction()
 		{
 			SpawnActor->AttachToComponent(mRotation, FAttachmentTransformRules::KeepRelativeTransform);
 		}
+	}
+
+
+	// World Transform
+	// for (int32 i = 0; i < 4; i++)
+	// {
+	// 	FVector Location;
+	// 	FRotator Rot = FRotator::ZeroRotator;
+	// 	
+	// 	switch (i)
+	// 	{
+	// 	case 0:
+	// 		Location = GetActorLocation() + GetActorForwardVector() * 200.0f;
+	// 		break;
+	// 	case 1:
+	// 		Location = GetActorLocation() + GetActorRightVector() * 200.0f;
+	// 		Rot.Yaw = 90.0f;
+	// 		break;
+	// 	case 2:
+	// 		Location = GetActorLocation() + GetActorForwardVector() * -200.0f;
+	// 		Rot.Yaw = 180.0f;
+	// 		break;
+	// 	case 3:
+	// 		Location = GetActorLocation() + GetActorRightVector() * -200.0f;
+	// 		Rot.Yaw = 270.0f;
+	// 		break;
+	// 	default:
+	// 		break;
+	// 	}
+	//
+	// 	FActorSpawnParameters Param;
+	// 	Param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::Undefined;
+	//
+	// 	// ACTestShield::StaticClass() : UClass 정보를 꺼내옴
+	// 	auto Shield = GetWorld()->SpawnActor<ACTestShield>(ACTestShield::StaticClass(), Location, GetActorRotation() + Rot, Param);
+	// 	Shield->AttachToComponent(mRotation, FAttachmentTransformRules::KeepWorldTransform);
+	// }
+}
+
+void ACTestPlayerCharacter::TripleShotAction()
+{
+	FActorSpawnParameters Param;
+	Param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::Undefined;
+	for (int i = -1; i <= 1; i++)
+	{
+		FVector Loc = GetActorLocation() + GetActorForwardVector() * 100;
+		Loc += GetActorRightVector() * 50 * i;
+		
+		FRotator Rot = GetActorRotation();
+		Rot.Yaw += 10.0f * i;
+		
+		GetWorld()->SpawnActor<AActor>(mAttackClass, Loc, Rot, Param);
 	}
 }
