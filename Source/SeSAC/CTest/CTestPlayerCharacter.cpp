@@ -65,6 +65,10 @@ ACTestPlayerCharacter::ACTestPlayerCharacter()
 	{
 		mAttackClass = AttackClass.Class;
 	}
+
+	// Set Collision Channel
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Player"));
 }
 
 void ACTestPlayerCharacter::BeginPlay()
