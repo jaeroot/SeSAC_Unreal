@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Components/TimelineComponent.h"
 #include "SeSAC/GameInfo.h"
 #include "GameFramework/Actor.h"
 #include "MazeDoor.generated.h"
@@ -26,22 +27,36 @@ protected:
 	void CollisionEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
-	UFUNCTION(BlueprintNativeEvent)
-	void OpenDoor();
-	UFUNCTION(BlueprintNativeEvent)
-	void CloseDoor();
+private:
+	// 업데이트 트랙 이벤트를 처리할 Float 트랙 시그니처
+	FOnTimelineFloat UpdateFunctionFloat;
 
-public:	
+	// 타임라인 그래프에 따라 문의 상대적 위치를 업데이트하는 함수
+	UFUNCTION()
+	void UpdateTimelineComponent(float Output);
 
-protected:
+public:
+	UPROPERTY(EditAnywhere, Category = "Door")
+	bool DoorLocked = false;
+
+private:
 	UPROPERTY(VisibleAnywhere)
-	UBoxComponent* mBody;
+	TObjectPtr<UBoxComponent> BoxComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UStaticMeshComponent* mMesh1;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UStaticMeshComponent* mMesh2;
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UArrowComponent> ArrowComponent;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UStaticMeshComponent> DoorMesh1;
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UStaticMeshComponent> DoorMesh2;
+
+	// DoorMesh를 업데이트하는 Timeline Component
+	UPROPERTY()
+	TObjectPtr<UTimelineComponent> DoorTimelineComponent;
+	// 커브 에셋 보관 변수
+	UPROPERTY()
+	TObjectPtr<UCurveFloat> DoorCurve;
+	
 	bool bIsFront;
 };

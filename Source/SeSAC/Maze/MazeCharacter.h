@@ -20,6 +20,17 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION(BlueprintCallable)
+	FORCEINLINE int32 GetItemCount() { return ItemCount; }
+	FORCEINLINE void AddItemCount() { ItemCount++; }
+
+	UFUNCTION(BlueprintCallable)
+	FORCEINLINE int32 GetHP() { return HP; }
+	
+	FORCEINLINE void SetHP(int32 NewInt) { HP += NewInt; }
+
+	FORCEINLINE bool GetShield() { return bShield; }
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -45,12 +56,15 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<URotatingMovementComponent> RotatingMovementComponent;
 
-	
+	TSubclassOf<AActor> AttackClass;
 	TSubclassOf<AActor> ShieldClass;
 	
 private:
 	bool bShieldEnable = true;
+	bool bShield = false;
 	float ShieldTime = 0.0f;
 	float ShieldCoolDown = 6.0f;
-	
+
+	int32 ItemCount = 0;
+	int32 HP = 30;
 };
