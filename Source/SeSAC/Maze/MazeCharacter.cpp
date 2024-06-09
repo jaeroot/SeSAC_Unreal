@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MiroCharacter.h"
+#include "MazeCharacter.h"
 
-AMiroCharacter::AMiroCharacter()
+AMazeCharacter::AMazeCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -16,37 +16,37 @@ AMiroCharacter::AMiroCharacter()
 
 }
 
-void AMiroCharacter::BeginPlay()
+void AMazeCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
-void AMiroCharacter::Tick(float DeltaTime)
+void AMazeCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-void AMiroCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AMazeCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
 
-void AMiroCharacter::MoveAction(const FInputActionValue& Value)
+void AMazeCharacter::MoveAction(const FInputActionValue& Value)
 {
 }
 
-void AMiroCharacter::RotationAction(const FInputActionValue& Value)
+void AMazeCharacter::RotationAction(const FInputActionValue& Value)
 {
 }
 
-void AMiroCharacter::AttackAction()
+void AMazeCharacter::AttackAction()
 {
 }
 
-void AMiroCharacter::ShieldAction()
+void AMazeCharacter::ShieldAction()
 {
 }
 

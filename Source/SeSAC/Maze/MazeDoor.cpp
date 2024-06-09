@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MiroDoor.h"
+#include "MazeDoor.h"
 
-AMiroDoor::AMiroDoor()
+AMazeDoor::AMazeDoor()
 {
 	PrimaryActorTick.bCanEverTick = false;
 
@@ -35,21 +35,21 @@ AMiroDoor::AMiroDoor()
 	mMesh2->SetRelativeScale3D(FVector(0.1f, 2.0f, 3.0f));
 }
 
-void AMiroDoor::BeginPlay()
+void AMazeDoor::BeginPlay()
 {
 	Super::BeginPlay();
 
-	mBody->OnComponentBeginOverlap.AddDynamic(this, &AMiroDoor::CollisionBeginOverlap);
-	mBody->OnComponentEndOverlap.AddDynamic(this, &AMiroDoor::CollisionEndOverlap);
+	mBody->OnComponentBeginOverlap.AddDynamic(this, &AMazeDoor::CollisionBeginOverlap);
+	mBody->OnComponentEndOverlap.AddDynamic(this, &AMazeDoor::CollisionEndOverlap);
 }
 
-void AMiroDoor::Tick(float DeltaTime)
+void AMazeDoor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-void AMiroDoor::CollisionBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+void AMazeDoor::CollisionBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	auto Character = Cast<ACharacter>(OtherActor);
@@ -68,7 +68,7 @@ void AMiroDoor::CollisionBeginOverlap(UPrimitiveComponent* OverlappedComponent, 
 	}
 }
 
-void AMiroDoor::CollisionEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+void AMazeDoor::CollisionEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	auto Character = Cast<ACharacter>(OtherActor);
@@ -78,11 +78,11 @@ void AMiroDoor::CollisionEndOverlap(UPrimitiveComponent* OverlappedComponent, AA
 	}
 }
 
-void AMiroDoor::CloseDoor_Implementation()
+void AMazeDoor::CloseDoor_Implementation()
 {
 }
 
-void AMiroDoor::OpenDoor_Implementation()
+void AMazeDoor::OpenDoor_Implementation()
 {
 }
 

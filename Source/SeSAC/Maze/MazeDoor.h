@@ -4,15 +4,15 @@
 
 #include "SeSAC/GameInfo.h"
 #include "GameFramework/Actor.h"
-#include "MiroDoor.generated.h"
+#include "MazeDoor.generated.h"
 
 UCLASS()
-class SESAC_API AMiroDoor : public AActor
+class SESAC_API AMazeDoor : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
-	AMiroDoor();
+	AMazeDoor();
 	virtual void Tick(float DeltaTime) override;
 
 protected:

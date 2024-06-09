@@ -4,17 +4,18 @@
 
 #include "SeSAC/GameInfo.h"
 #include "GameFramework/Character.h"
-#include "MiroCharacter.generated.h"
+#include "MazeCharacter.generated.h"
 
+struct FInputActionValue;
 class URotatingMovementComponent;
 
 UCLASS()
-class SESAC_API AMiroCharacter : public ACharacter
+class SESAC_API AMazeCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
-	AMiroCharacter();
+	AMazeCharacter();
 	
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
