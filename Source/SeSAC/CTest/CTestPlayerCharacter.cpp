@@ -3,6 +3,7 @@
 
 #include "CTestPlayerCharacter.h"
 
+#include "CTestBullet.h"
 #include "CTestShield.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
@@ -151,7 +152,12 @@ void ACTestPlayerCharacter::AttackAction()
 	Param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::Undefined;
 	FVector Loc = GetActorLocation() + GetActorForwardVector() * 100;
 	FRotator Rot = GetActorRotation();
-	GetWorld()->SpawnActor<AActor>(mAttackClass, Loc, Rot, Param);
+	// GetWorld()->SpawnActor<AActor>(mAttackClass, Loc, Rot, Param);
+	auto Bullet = GetWorld()->SpawnActor<ACTestBullet>(Loc, Rot);
+	
+	// 총알을 쏘는 컨트롤러로 현재 빙의된 컨트롤러를 지정
+	Bullet->SetOwnerController(GetController());
+	
 
 	auto Montage = LoadObject<UAnimMontage>(nullptr, TEXT("/Script/Engine.AnimMontage'/Game/ParagonGideon/Characters/Heroes/Gideon/Animations/Primary_Attack_A_Medium_Montage.Primary_Attack_A_Medium_Montage'"));	
 	PlayAnimMontage(Montage);
