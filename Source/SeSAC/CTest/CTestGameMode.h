@@ -27,5 +27,5 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 mScore;
+	int32 mScore = 0;
 };

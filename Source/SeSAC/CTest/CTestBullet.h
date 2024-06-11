@@ -25,6 +25,15 @@ protected:
 	void ProjectileHit(const FHitResult& HitResult);
 
 public:
+	void SetOwnerController(AController* Controller)
+	{
+		mOwnerController = Controller;
+	}
+
+	void SetDamage(float Damage)
+	{
+		mDamage = Damage;
+	}
 
 protected:
 	UPROPERTY(VisibleAnywhere)
@@ -43,14 +52,4 @@ protected:
 	AController* mOwnerController;
 	float mDamage = 10.0f;
 
-public:
-	void SetOwnerController(AController* Controller)
-	{
-		mOwnerController = Controller;
-	}
-
-	void SetDamage(float Damage)
-	{
-		mDamage = Damage;
-	}
 };
