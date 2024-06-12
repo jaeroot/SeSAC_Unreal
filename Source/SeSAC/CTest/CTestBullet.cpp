@@ -98,7 +98,6 @@ void ACTestBullet::ProjectileHit(const FHitResult& HitResult)
 	// {
 	// 	GEngine->AddOnScreenDebugMessage(-1, 50.0f, FColor::Red, TEXT("Particle"));
 	// }
-	TArray<>
 	
 	
 	// play sound 2d : 어디서 듣던 같음

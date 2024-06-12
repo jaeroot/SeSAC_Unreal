@@ -4,6 +4,7 @@
 
 #include "SeSAC/GameInfo.h"
 #include "GameFramework/Pawn.h"
+// #include "CTestItem.h"
 #include "CTestPlayerPawn.generated.h"
 
 // class UCameraComponent;
@@ -39,5 +40,8 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* mCamera;
+	
+	CLinkedList<class ACTestItem*> mItemList;
+	CLinkedList<int32> mIntList;
 
 };

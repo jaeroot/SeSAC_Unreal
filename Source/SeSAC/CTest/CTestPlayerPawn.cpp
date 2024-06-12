@@ -40,6 +40,19 @@ void ACTestPlayerPawn::BeginPlay()
 {
 	Super::BeginPlay();
 
+	mIntList.push_back(10);
+	mIntList.push_back(20);
+
+	// TLinkedList<int32> IntList;
+	//
+	// TDoubleLinkedList<int32> IntList2;
+	// TDoubleLinkedList<int32>::TIterator iter;
+
+	TArray<int32> arr;
+	for (int i = 0; i < 100; i++)
+	{
+		arr.Add(i);
+	}
 }
 
 void ACTestPlayerPawn::Tick(float DeltaTime)
