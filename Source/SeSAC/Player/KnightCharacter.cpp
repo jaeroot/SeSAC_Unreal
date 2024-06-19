@@ -24,7 +24,13 @@ AKnightCharacter::AKnightCharacter()
 	mArm->SetRelativeLocation(FVector(0.0f, 0.0f, 70.0f));
 	mArm->SetRelativeRotation(FRotator(-10.0f, 0.0f, 0.0f));
 	mArm->TargetArmLength = 500.0f;
-	
+
+	static ConstructorHelpers::FClassFinder<UAnimInstance>
+		KwangAnimClass(TEXT("/Game/Player/Knight/ABP_Kwang.ABP_Kwang_C"));
+	if (KwangAnimClass.Succeeded())
+	{
+		GetMesh()->SetAnimClass(KwangAnimClass.Class);
+	}
 }
 
 void AKnightCharacter::BeginPlay()
