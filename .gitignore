@@ -1,7 +1,11 @@
 .idea/
-Content/
+Content/*
+!Content/Input/
+!Content/Levels/
 !Content/Maze/
+!Content/Player/
 !Content/Test/
+
 
 # Visual Studio 2015 user specific files
 .vs/
