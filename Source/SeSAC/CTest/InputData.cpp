@@ -3,6 +3,54 @@
 
 #include "InputData.h"
 
+UDefaultInputData::UDefaultInputData()
+{
+	{
+		static ConstructorHelpers::FObjectFinder<UInputMappingContext>
+			Asset(TEXT("/Game/Input/IMC_Default.IMC_Default"));
+		if (Asset.Succeeded())
+		{
+			mDefaultContext = Asset.Object;
+		}
+	}
+	
+	{
+		static ConstructorHelpers::FObjectFinder<UInputAction>
+			Asset(TEXT("/Game/Input/IA_Move.IA_Move"));
+		if (Asset.Succeeded())
+		{
+			mMove = Asset.Object;
+		}
+	}
+
+	{
+		static ConstructorHelpers::FObjectFinder<UInputAction>
+			Asset(TEXT("/Game/Input/IA_Rotation.IA_Rotation"));
+		if (Asset.Succeeded())
+		{
+			mRotation = Asset.Object;
+		}
+	}
+
+	{
+		static ConstructorHelpers::FObjectFinder<UInputAction>
+			Asset(TEXT("/Game/Input/IA_Attack.IA_Attack"));
+		if (Asset.Succeeded())
+		{
+			mAttack = Asset.Object;
+		}
+	}
+
+	{
+		static ConstructorHelpers::FObjectFinder<UInputAction>
+			Asset(TEXT("/Game/Input/IA_Jump.IA_Jump"));
+		if (Asset.Succeeded())
+		{
+			mJump = Asset.Object;
+		}
+	}
+}
+
 UTestInputData::UTestInputData()
 {
 	{
