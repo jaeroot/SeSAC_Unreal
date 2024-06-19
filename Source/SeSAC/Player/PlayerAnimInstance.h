@@ -23,6 +23,9 @@ public:
 
 	virtual void NativeBeginPlay() override;
 
+public:
+	void SetMoveDir(const FVector& ActionValue);
+
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	float mMoveSpeed = 0.0f;
@@ -30,4 +33,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	float mMoveDir = 0.0f;
 	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	bool mAcceleration = false;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	bool mIsAir = false;
 };

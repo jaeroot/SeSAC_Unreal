@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "PlayerCharacter.generated.h"
 
+class UPlayerAnimInstance;
 struct FInputActionValue;
 
 UCLASS()
@@ -35,4 +36,7 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* mCamera;
+
+	TObjectPtr<UPlayerAnimInstance> mAnimInstance;
+	
 };

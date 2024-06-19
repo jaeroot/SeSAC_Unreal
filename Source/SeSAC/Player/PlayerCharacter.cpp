@@ -5,7 +5,7 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "SeSAC/CTest/CTestPlayerCharacter.h"
+#include "PlayerAnimInstance.h"
 #include "SeSAC/CTest/InputData.h"
 
 APlayerCharacter::APlayerCharacter()
@@ -35,6 +35,8 @@ APlayerCharacter::APlayerCharacter()
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	mAnimInstance = Cast<UPlayerAnimInstance>(GetMesh()->GetAnimInstance());
 
 	auto PlayerController = Cast<APlayerController>(GetController());
 	if (PlayerController)
@@ -73,6 +75,8 @@ void APlayerCharacter::MoveAction(const FInputActionValue& Value)
 	FVector Axis = Value.Get<FVector>();
 	AddMovementInput(GetActorForwardVector(), Axis.Y);
 	AddMovementInput(GetActorRightVector(), Axis.X);
+
+	mAnimInstance->SetMoveDir(Axis);
 }
 
 void APlayerCharacter::RotationAction(const FInputActionValue& Value)
