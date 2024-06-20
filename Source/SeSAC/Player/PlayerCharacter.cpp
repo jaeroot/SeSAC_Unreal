@@ -27,7 +27,7 @@ APlayerCharacter::APlayerCharacter()
 	mCamera->SetupAttachment(mArm);
 
 	// set Control Rotation
-	bUseControllerRotationYaw = true;
+	bUseControllerRotationYaw = false;
 	mArm->bUsePawnControlRotation = true;
 	
 }
@@ -52,6 +52,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	
 }
 
 void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -88,9 +89,14 @@ void APlayerCharacter::RotationAction(const FInputActionValue& Value)
 
 void APlayerCharacter::AttackAction()
 {
+	NormalAttack();
 }
 
 void APlayerCharacter::JumpAction()
+{
+}
+
+void APlayerCharacter::NormalAttack()
 {
 }
 

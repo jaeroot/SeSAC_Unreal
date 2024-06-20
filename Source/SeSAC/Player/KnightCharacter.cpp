@@ -3,6 +3,8 @@
 
 #include "KnightCharacter.h"
 
+#include "PlayerAnimInstance.h"
+
 AKnightCharacter::AKnightCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -46,4 +48,9 @@ void AKnightCharacter::Tick(float DeltaTime)
 void AKnightCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+}
+
+void AKnightCharacter::NormalAttack()
+{
+	mAnimInstance->PlayAttackMontage();
 }

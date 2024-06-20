@@ -28,6 +28,9 @@ protected:
 	void AttackAction();
 	void JumpAction();
 
+protected:
+	virtual void NormalAttack();
+
 public:
 
 protected:
