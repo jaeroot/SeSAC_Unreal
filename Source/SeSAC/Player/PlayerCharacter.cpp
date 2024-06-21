@@ -96,6 +96,14 @@ void APlayerCharacter::JumpAction()
 {
 }
 
+void APlayerCharacter::AttackEnable()
+{
+}
+
+void APlayerCharacter::AttackDisable()
+{
+}
+
 void APlayerCharacter::NormalAttack()
 {
 }

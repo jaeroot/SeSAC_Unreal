@@ -19,7 +19,20 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	virtual void NormalAttack() override;
+public:
+	virtual void AttackEnable();
+	virtual void AttackDisable();
 
+protected:
+	virtual void NormalAttack() override;
 	
+	UFUNCTION()
+	void WeaponHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+	UFUNCTION()
+	void WeaponBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
+
+protected:
+	UPROPERTY(VisibleAnywhere)
+	UBoxComponent* mWeaponBox;
 };

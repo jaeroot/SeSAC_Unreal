@@ -31,15 +31,20 @@ public:
 	// 애니메이션 노티파이 함수는 void AnimNotify_노티파이이름() 으로 함수를 만들어줘야함
 	UFUNCTION()
 	void AnimNotify_AttackCombo();
-
 	UFUNCTION()
 	void AnimNotify_AttackComboEnd();
+	
+	UFUNCTION()
+	void AnimNotify_AttackEnable();
+	UFUNCTION()
+	void AnimNotify_AttackDisable();
 	
 protected:
 	// bInterrupted = true if it was not property finished
 	UFUNCTION()
 	void MontageEnd(UAnimMontage* Montage, bool bInterrupted);
 
+	
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	float mMoveSpeed = 0.0f;

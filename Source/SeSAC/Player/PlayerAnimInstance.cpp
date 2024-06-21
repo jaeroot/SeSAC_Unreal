@@ -105,22 +105,28 @@ void UPlayerAnimInstance::PlayAttackMontage()
 		return;
 	}
 
+
+	// mAttackState 변수는 공격중인지 판단
+	// 이 변수가 false라면 첫번째 공격을 시도하는 것
 	if (!mAttackState)
 	{
 		// 몽타주가 재생중인지 판단
 		// 재생중이면 true, 아니면 false
-		if (!Montage_IsPlaying(mAttackMontage))
+		//if (!Montage_IsPlaying(mAttackMontage))
 		{
 			// InPlayRate : 재생속도
 			// MontageLength : 현재 재생된 몽타주의 길이
 			// 여기서 다른 몽타주를 재생시켜서 기존 몽타주 재생이 끝날 경우, Ended에 bInterrupted가 true로 들어가게 됨
 			// 다른 몽타주 재생이 아닌 실제 몽타주 재생이 끝날 경우, bInterrupted가 false로 들어감
+			// Montage_SetPosition()은 특정 몽타주의 시작 위치를 변경해주는 함수
 			Montage_SetPosition(mAttackMontage, 0.0f);
+			// Montage 재생
 			Montage_Play(mAttackMontage);
+			// Montage의 특정 Section으로 이동시켜서 재생시켜주는 함수
 			Montage_JumpToSection(mAttackSectionArray[mCurrentAttackSection]);
 		}
 	}
-	else
+	else		// 이미 공격상태에서 공격버튼을 또 눌렀다면, 콤보공격을 하기 위해서임
 	{
 		mAttackCombo = true;
 	}
@@ -146,6 +152,7 @@ void UPlayerAnimInstance::AnimNotify_AttackCombo()
 
 void UPlayerAnimInstance::AnimNotify_AttackComboEnd()
 {
+	// 마지막 섹션은 리커버리 모션이 포함되어 있기 때문에, 마지막 섹션과 나머지 섹션을 분리하여 처리
 	if (mCurrentAttackSection < mAttackSectionArray.Num() - 1)
 	{
 		Montage_SetPosition(mAttackRecoveryMontage, 0.0f);
@@ -157,6 +164,24 @@ void UPlayerAnimInstance::AnimNotify_AttackComboEnd()
 		mAttackCombo = false;
 		mAttackState = false;
 		mCurrentAttackSection = 0;
+	}
+}
+
+void UPlayerAnimInstance::AnimNotify_AttackEnable()
+{
+	auto PlayerCharacter = Cast<APlayerCharacter>(TryGetPawnOwner());
+	if (IsValid(PlayerCharacter))
+	{
+		PlayerCharacter->AttackEnable();
+	}
+}
+
+void UPlayerAnimInstance::AnimNotify_AttackDisable()
+{
+	auto PlayerCharacter = Cast<APlayerCharacter>(TryGetPawnOwner());
+	if (IsValid(PlayerCharacter))
+	{
+		PlayerCharacter->AttackDisable();
 	}
 }
 

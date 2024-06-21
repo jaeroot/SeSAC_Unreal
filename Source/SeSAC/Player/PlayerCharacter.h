@@ -28,8 +28,13 @@ protected:
 	void AttackAction();
 	void JumpAction();
 
+public:
+	virtual void AttackEnable();
+	virtual void AttackDisable();
+	
 protected:
 	virtual void NormalAttack();
+	
 
 public:
 
@@ -42,4 +47,6 @@ protected:
 
 	TObjectPtr<UPlayerAnimInstance> mAnimInstance;
 	
+	UPROPERTY(VisibleAnywhere)
+	UParticleSystem* mNormalAttackHit;
 };
