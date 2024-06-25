@@ -94,6 +94,13 @@ void APlayerCharacter::AttackAction()
 
 void APlayerCharacter::JumpAction()
 {
+	// 물리적으로 jump가 가능할 때만 jump
+	if (CanJump())
+	{
+		Jump();
+
+		mAnimInstance->OnJump();
+	}
 }
 
 void APlayerCharacter::AttackEnable()

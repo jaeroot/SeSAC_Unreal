@@ -28,6 +28,20 @@ public:
 
 	void PlayAttackMontage();
 
+	void OnJump()
+	{
+		mJump = true;
+
+		if (Montage_IsPlaying(mAttackMontage))
+		{
+			Montage_Stop(0.1f, mAttackMontage);
+
+			mAttackCombo = false;
+			mAttackState = false;
+			mCurrentAttackSection = 0;
+		}
+	}
+
 	// 애니메이션 노티파이 함수는 void AnimNotify_노티파이이름() 으로 함수를 만들어줘야함
 	UFUNCTION()
 	void AnimNotify_AttackCombo();
@@ -76,6 +90,19 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	int32 mCurrentAttackSection = 0;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FName mAttackAirSection;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	bool mJump = false;
+
 	bool mAttackCombo = false;
 	bool mAttackState = false;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TMap<FString, UAnimSequence*> mSequenceMap;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TMap<FString, UBlendSpace*> mBlendSpaceMap;
 };
