@@ -14,7 +14,8 @@ public class SeSAC : ModuleRules
 			"CoreUObject", 
 			"Engine", 
 			"InputCore",
-			"EnhancedInput"
+			"EnhancedInput",
+			"AIModule"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
