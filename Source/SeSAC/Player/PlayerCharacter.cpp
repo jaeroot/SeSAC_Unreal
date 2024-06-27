@@ -68,6 +68,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		EnhancedInputComponent->BindAction(InputData->mRotation, ETriggerEvent::Triggered, this, &APlayerCharacter::RotationAction);
 		EnhancedInputComponent->BindAction(InputData->mAttack, ETriggerEvent::Started, this, &APlayerCharacter::AttackAction);
 		EnhancedInputComponent->BindAction(InputData->mJump, ETriggerEvent::Started, this, &APlayerCharacter::JumpAction);
+		EnhancedInputComponent->BindAction(InputData->mDeath, ETriggerEvent::Started, this, &APlayerCharacter::DeathAction);
 	}
 }
 
@@ -101,6 +102,12 @@ void APlayerCharacter::JumpAction()
 
 		mAnimInstance->OnJump();
 	}
+}
+
+void APlayerCharacter::DeathAction()
+{
+	mAnimInstance->SetAnimType(EPlayerAnimType::Death);
+	GetCharacterMovement()->MaxWalkSpeed = 0;
 }
 
 void APlayerCharacter::AttackEnable()

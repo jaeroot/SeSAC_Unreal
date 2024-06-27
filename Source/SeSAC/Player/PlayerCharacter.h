@@ -27,6 +27,7 @@ protected:
 	void RotationAction(const FInputActionValue& Value);
 	void AttackAction();
 	void JumpAction();
+	void DeathAction();
 
 public:
 	virtual void AttackEnable();

@@ -49,6 +49,15 @@ UDefaultInputData::UDefaultInputData()
 			mJump = Asset.Object;
 		}
 	}
+	
+	{
+		static ConstructorHelpers::FObjectFinder<UInputAction>
+			Asset(TEXT("/Game/Input/IA_Death.IA_Death"));
+		if (Asset.Succeeded())
+		{
+			mDeath = Asset.Object;
+		}
+	}
 }
 
 UTestInputData::UTestInputData()

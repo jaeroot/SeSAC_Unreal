@@ -6,9 +6,14 @@
 #include "Animation/AnimInstance.h"
 #include "PlayerAnimInstance.generated.h"
 
-/**
- * 
- */
+UENUM(BlueprintType)
+enum class EPlayerAnimType : uint8
+{
+	Locomotion,
+	Death
+};
+
+
 UCLASS()
 class SESAC_API UPlayerAnimInstance : public UAnimInstance
 {
@@ -40,6 +45,11 @@ public:
 			mAttackState = false;
 			mCurrentAttackSection = 0;
 		}
+	}
+
+	void SetAnimType(EPlayerAnimType Type)
+	{
+		mAnimType = Type;
 	}
 
 	// 애니메이션 노티파이 함수는 void AnimNotify_노티파이이름() 으로 함수를 만들어줘야함
@@ -95,6 +105,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	bool mJump = false;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	EPlayerAnimType mAnimType = EPlayerAnimType::Locomotion;
 
 	bool mAttackCombo = false;
 	bool mAttackState = false;

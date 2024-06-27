@@ -23,6 +23,7 @@ public:
 	UInputAction* mRotation = nullptr;
 	UInputAction* mAttack = nullptr;
 	UInputAction* mJump = nullptr;
+	UInputAction* mDeath = nullptr;
 };
 
 UCLASS()
