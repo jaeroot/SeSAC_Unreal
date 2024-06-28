@@ -35,6 +35,18 @@ void AAIPawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	}
 }
 
+FGenericTeamId AAIPawn::GetGenericTeamId() const
+{
+	return FGenericTeamId(mTeamID);
+}
+
+ETeamAttitude::Type AAIPawn::GetTeamAttitudeTowards(const AActor& Other) const
+{
+	const IGenericTeamAgentInterface* OtherTeamAgent = Cast<const IGenericTeamAgentInterface>(&Other);
+	return OtherTeamAgent ? FGenericTeamId::GetAttitude(GetGenericTeamId(), OtherTeamAgent->GetGenericTeamId())
+		: ETeamAttitude::Neutral;
+}
+
 void AAIPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);

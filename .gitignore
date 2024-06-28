@@ -5,6 +5,7 @@ Content/*
 !Content/Maze/
 !Content/Player/
 !Content/Test/
+!Content/AI/
 
 
 # Visual Studio 2015 user specific files

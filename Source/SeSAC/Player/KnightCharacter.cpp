@@ -59,7 +59,7 @@ void AKnightCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	// mWeaponBox->OnComponentHit.AddDynamic(this, &AKnightCharacter::WeaponHit);
-	mWeaponBox->OnComponentBeginOverlap.AddDynamic(this, &AKnightCharacter::WeaponBeginOverlap);
+	// mWeaponBox->OnComponentBeginOverlap.AddDynamic(this, &AKnightCharacter::WeaponBeginOverlap);
 }
 
 void AKnightCharacter::Tick(float DeltaTime)
@@ -112,6 +112,9 @@ void AKnightCharacter::AttackEnable()
 		// 배열 개수만큼 반복하여 하나씩 Result에 꺼내옴
 		for (auto Result: Results)
 		{
+			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Cyan,
+				FString::Printf(TEXT("Weapon Hit : %s"), *Result.ImpactPoint.ToString()));
+			
 			FDamageEvent DmgEvent;
 			Result.GetActor()->TakeDamage(10.0f, DmgEvent, GetController(), this);
 

@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "GenericTeamAgentInterface.h"
 #include "SeSAC/GameInfo.h"
 #include "GameFramework/Pawn.h"
 #include "AIPawn.generated.h"
@@ -11,7 +12,7 @@ DECLARE_MULTICAST_DELEGATE(FAIDeathDelegate);
 
 
 UCLASS()
-class SESAC_API AAIPawn : public APawn
+class SESAC_API AAIPawn : public APawn, public IGenericTeamAgentInterface
 {
 	GENERATED_BODY()
 
@@ -37,6 +38,14 @@ public:
 	{
 		mDeathDelegate.AddUObject(Object, Func);
 	}
+	
+	void SetTeamID(uint8 TeamID)
+	{
+		mTeamID = TeamID;
+	}
+	virtual FGenericTeamId GetGenericTeamId() const override;
+
+	virtual ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other) const override;
 
 public:
 
@@ -48,5 +57,7 @@ protected:
 	USkeletalMeshComponent* mMesh;
 
 	FAIDeathDelegate mDeathDelegate;
+
+	uint8 mTeamID;
 	
 };

@@ -72,6 +72,11 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	}
 }
 
+void APlayerCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+}
+
 void APlayerCharacter::MoveAction(const FInputActionValue& Value)
 {
 	FVector Axis = Value.Get<FVector>();
@@ -120,5 +125,10 @@ void APlayerCharacter::AttackDisable()
 
 void APlayerCharacter::NormalAttack()
 {
+}
+
+FGenericTeamId APlayerCharacter::GetGenericTeamId() const
+{
+	return FGenericTeamId(mTeamID);
 }
 
