@@ -4,6 +4,7 @@
 #include "KnightCharacter.h"
 
 #include "PlayerAnimInstance.h"
+#include "Engine/OverlapResult.h"
 
 AKnightCharacter::AKnightCharacter()
 {
@@ -117,8 +118,8 @@ void AKnightCharacter::AttackEnable()
 			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), mNormalAttackHit,
 				Result.ImpactPoint, Result.ImpactNormal.Rotation(), true);
 
-			GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Cyan,
-				FString::Printf(TEXT("Weapon Hit : %s"), *Result.GetActor()->GetName()));
+			// GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Cyan,
+			// 	FString::Printf(TEXT("Weapon Hit : %s"), *Result.GetActor()->GetName()));
 		}	
 	}
 }
@@ -136,8 +137,8 @@ void AKnightCharacter::NormalAttack()
 void AKnightCharacter::WeaponHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 	FVector NormalImpulse, const FHitResult& Hit)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Cyan,
-		FString::Printf(TEXT("Weapon Hit : %s"), *OtherActor->GetName()));
+	// GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Cyan,
+	// 	FString::Printf(TEXT("Weapon Hit : %s"), *OtherActor->GetName()));
 }
 
 void AKnightCharacter::WeaponBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
@@ -149,8 +150,8 @@ void AKnightCharacter::WeaponBeginOverlap(UPrimitiveComponent* OverlappedCompone
 	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), mNormalAttackHit,
 		OtherActor->GetActorLocation(), OtherActor->GetActorRotation(), true);
 	
-	GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Cyan,
-		FString::Printf(TEXT("Impact Point : %s, Normal : %s"),
-			*SweepResult.ImpactPoint.ToString(),
-			*SweepResult.ImpactNormal.ToString()));
+	// GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::Cyan,
+	// 	FString::Printf(TEXT("Impact Point : %s, Normal : %s"),
+	// 		*SweepResult.ImpactPoint.ToString(),
+	// 		*SweepResult.ImpactNormal.ToString()));
 }

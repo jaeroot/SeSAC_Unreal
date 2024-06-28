@@ -13,6 +13,7 @@ AAIPawn::AAIPawn()
 	
 	mMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	mMesh->SetupAttachment(mCapsule);
+	mMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 }
@@ -23,8 +24,29 @@ void AAIPawn::BeginPlay()
 	
 }
 
+void AAIPawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+
+	// 등록된 함수가 있을 경우, 해당 함수들을 호출함
+	if (mDeathDelegate.IsBound())
+	{
+		mDeathDelegate.Broadcast();
+	}
+}
+
 void AAIPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+float AAIPawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,
+	AActor* DamageCauser)
+{
+	DamageAmount = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
+	Destroy();
+
+	return DamageAmount;
 }
