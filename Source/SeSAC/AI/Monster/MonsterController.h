@@ -3,6 +3,7 @@
 #pragma once
 
 #include "SeSAC/GameInfo.h"
+#include "SeSAC/AI/AIInfo.h"
 #include "AIController.h"
 #include "MonsterController.generated.h"
 
@@ -19,6 +20,14 @@ public:
 	AMonsterController();
 	
 	virtual void Tick(float DeltaTime) override;
+
+	virtual FGenericTeamId GetGenericTeamId() const override;
+	virtual ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other) const override;
+
+	void SetTeamID(uint8 ID)
+	{
+		mTeamID = ID;
+	}
 
 protected:
 	virtual void BeginPlay() override;
@@ -44,5 +53,7 @@ protected:
 
 	UBehaviorTree* mAITree;
 	UBlackboardData* mBlackboard;
+
+	uint8 mTeamID = 255;
 
 };

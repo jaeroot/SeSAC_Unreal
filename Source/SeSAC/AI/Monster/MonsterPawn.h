@@ -17,9 +17,14 @@ public:
 	AMonsterPawn();
 	
 	virtual void Tick(float DeltaTime) override;
+	virtual void PossessedBy(AController* NewController) override;
+
+public:
+	virtual void SetAIType(EAIType Type) override;
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:
 

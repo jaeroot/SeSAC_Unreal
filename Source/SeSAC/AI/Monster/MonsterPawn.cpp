@@ -25,7 +25,30 @@ void AMonsterPawn::BeginPlay()
 	
 }
 
+void AMonsterPawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+	
+}
+
 void AMonsterPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+void AMonsterPawn::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	AMonsterController* MonsterController = Cast<AMonsterController>(NewController);
+
+	if (IsValid(MonsterController))
+	{
+		MonsterController->SetTeamID(mTeamID);
+	}
+}
+
+void AMonsterPawn::SetAIType(EAIType Type)
+{
+	Super::SetAIType(Type);
 }

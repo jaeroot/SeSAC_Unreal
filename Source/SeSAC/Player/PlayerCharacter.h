@@ -45,6 +45,7 @@ public:
 	}
 
 	virtual FGenericTeamId GetGenericTeamId() const override;
+	virtual ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other) const override;
 	
 public:
 
@@ -60,5 +61,5 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	UParticleSystem* mNormalAttackHit;
 
-	uint8 mTeamID = 255;
+	uint8 mTeamID = 1;
 };

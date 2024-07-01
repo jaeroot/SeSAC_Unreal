@@ -3,6 +3,7 @@
 
 #include "MonsterController.h"
 
+#include "MonsterPawn.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Damage.h"
 #include "Perception/AISenseConfig_Sight.h"
@@ -17,7 +18,7 @@ AMonsterController::AMonsterController()
 
 	// TeamID는 255개 팀이 있음
 	// 아무것도 지정하지 않을 경우 255팀으로 기본 설정
-	SetGenericTeamId(FGenericTeamId(3));
+	// SetGenericTeamId(FGenericTeamId(3));
 
 	// GetTeamAttitudeTowards()
 	//ETeamAttitude
@@ -48,14 +49,14 @@ AMonsterController::AMonsterController()
 
 
 	// bt, bb
-	static ConstructorHelpers::FObjectFinder<UBehaviorTree>
+	ConstructorHelpers::FObjectFinder<UBehaviorTree>
 		AITreeAsset(TEXT("/Game/AI/Monster/BT_MonsterDefault.BT_MonsterDefault"));
 	if (AITreeAsset.Succeeded())
 	{
 		mAITree = AITreeAsset.Object;
 	}
 
-	static ConstructorHelpers::FObjectFinder<UBlackboardData>
+	ConstructorHelpers::FObjectFinder<UBlackboardData>
 		BlackBoardAsset(TEXT("/Game/AI/Monster/BB_MonsterDefault.BB_MonsterDefault"));
 	if (BlackBoardAsset.Succeeded())
 	{
@@ -96,6 +97,34 @@ void AMonsterController::OnUnPossess()
 void AMonsterController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+FGenericTeamId AMonsterController::GetGenericTeamId() const
+{
+	return FGenericTeamId(mTeamID);
+}
+
+ETeamAttitude::Type AMonsterController::GetTeamAttitudeTowards(const AActor& Other) const
+{ 
+	const IGenericTeamAgentInterface* OtherTeamAgent = Cast<const IGenericTeamAgentInterface>(&Other);
+
+	if (!OtherTeamAgent)
+	{
+		return ETeamAttitude::Neutral;
+	}
+	else if (OtherTeamAgent->GetGenericTeamId() == 255)
+	{
+		return ETeamAttitude::Neutral;
+	}
+	else if (GetGenericTeamId() == OtherTeamAgent->GetGenericTeamId())
+	{
+		return ETeamAttitude::Friendly;
+	}
+
+	return ETeamAttitude::Hostile;
+	
+	// return OtherTeamAgent ? FGenericTeamId::GetAttitude(GetGenericTeamId(), OtherTeamAgent->GetGenericTeamId())
+	// 	: ETeamAttitude::Neutral;
 }
 
 void AMonsterController::OnTargetDetect(AActor* Target, FAIStimulus Stimulus)

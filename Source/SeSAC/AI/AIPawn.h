@@ -4,10 +4,12 @@
 
 #include "GenericTeamAgentInterface.h"
 #include "SeSAC/GameInfo.h"
+#include "SeSAC/AI/AIInfo.h"
 #include "GameFramework/Pawn.h"
 #include "AIPawn.generated.h"
 
 
+class UMonsterDefaultAnimTemplate;
 DECLARE_MULTICAST_DELEGATE(FAIDeathDelegate);
 
 
@@ -21,6 +23,7 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+	virtual void PossessedBy(AController* NewController) override;
 	
 protected:
 	virtual void BeginPlay() override;
@@ -31,6 +34,13 @@ public:
 	UCapsuleComponent* GetCapsule() const
 	{
 		return mCapsule;
+	}
+
+	virtual void SetAIType(EAIType Type);
+
+	EAIType GetAIType() const
+	{
+		return mAIType;
 	}
 
 	template <typename T>
@@ -58,6 +68,7 @@ protected:
 
 	FAIDeathDelegate mDeathDelegate;
 
-	uint8 mTeamID;
-	
+	uint8 mTeamID = 10;
+
+	EAIType mAIType;	
 };

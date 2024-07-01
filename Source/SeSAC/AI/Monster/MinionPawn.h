@@ -15,9 +15,14 @@ public:
 	AMinionPawn();
 	
 	virtual void Tick(float DeltaTime) override;
+public:
+	virtual void SetAIType(EAIType Type) override;
 
 protected:
 	virtual void BeginPlay() override;
 
 public:
+
+protected:
+	UMonsterDefaultAnimTemplate* mMinionAnim;
 };

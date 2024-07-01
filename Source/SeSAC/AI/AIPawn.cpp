@@ -16,12 +16,14 @@ AAIPawn::AAIPawn()
 	mMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+
+	bUseControllerRotationYaw = true;
 }
 
 void AAIPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 void AAIPawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -33,6 +35,11 @@ void AAIPawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	{
 		mDeathDelegate.Broadcast();
 	}
+}
+
+void AAIPawn::SetAIType(EAIType Type)
+{
+	mAIType = Type;
 }
 
 FGenericTeamId AAIPawn::GetGenericTeamId() const
@@ -61,4 +68,11 @@ float AAIPawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, A
 	Destroy();
 
 	return DamageAmount;
+}
+
+void AAIPawn::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	
 }

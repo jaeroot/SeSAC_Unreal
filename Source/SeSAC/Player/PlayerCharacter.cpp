@@ -132,3 +132,10 @@ FGenericTeamId APlayerCharacter::GetGenericTeamId() const
 	return FGenericTeamId(mTeamID);
 }
 
+ETeamAttitude::Type APlayerCharacter::GetTeamAttitudeTowards(const AActor& Other) const
+{ 
+	const IGenericTeamAgentInterface* OtherTeamAgent = Cast<const IGenericTeamAgentInterface>(&Other);
+	return OtherTeamAgent ? FGenericTeamId::GetAttitude(GetGenericTeamId(), OtherTeamAgent->GetGenericTeamId())
+		: ETeamAttitude::Neutral;
+}
+
