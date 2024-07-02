@@ -46,6 +46,11 @@ public:
 
 	virtual FGenericTeamId GetGenericTeamId() const override;
 	virtual ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other) const override;
+
+	EPlayerJob GetJob() const
+	{
+		return mJob;
+	}
 	
 public:
 
@@ -62,4 +67,6 @@ protected:
 	UParticleSystem* mNormalAttackHit;
 
 	uint8 mTeamID = 1;
+
+	EPlayerJob mJob;
 };

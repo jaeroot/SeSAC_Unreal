@@ -38,6 +38,7 @@ void UBTTask_Attack::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemo
 {
 	Super::TickTask(OwnerComp, NodeMemory, DeltaSeconds);
 
+	
 	// AI Pawn을 얻어옴
 	AAIPawn* AIPawn = OwnerComp.GetAIOwner()->GetPawn<AAIPawn>();
 	if (!IsValid(AIPawn))
@@ -60,31 +61,50 @@ void UBTTask_Attack::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemo
 		return;
 	}
 
-	// 공격거리를 빠져나갔는지 판단
-	FVector AILocation = AIPawn->GetActorLocation();
-	FVector TargetLocation = Target->GetActorLocation();
+	bool AttackEnd = OwnerComp.GetAIOwner()->GetBlackboardComponent()->GetValueAsBool(CMonsterDefaultKey::mAttackEnd);
 
-	AILocation.Z -= AIPawn->GetCapsule()->GetScaledCapsuleHalfHeight();
-	float Radius = AIPawn->GetCapsule()->GetScaledCapsuleRadius();
-
-	auto TargetCapsule = Cast<UCapsuleComponent>(Target->GetRootComponent());
-	if (IsValid(TargetCapsule))
+	if (AttackEnd)
 	{
-		TargetLocation.Z -= TargetCapsule->GetScaledCapsuleHalfHeight();
-		Radius += TargetCapsule->GetScaledCapsuleRadius();
-	}
+		OwnerComp.GetAIOwner()->GetBlackboardComponent()->SetValueAsBool(CMonsterDefaultKey::mAttackEnd, false);
+		
+		// 공격거리를 빠져나갔는지 판단
+		FVector AILocation = AIPawn->GetActorLocation();
+		FVector TargetLocation = Target->GetActorLocation();
 
-	// 두 점 사이 거리 구함
-	float Distance = FVector::Distance(AILocation, TargetLocation);
+		AILocation.Z -= AIPawn->GetCapsule()->GetScaledCapsuleHalfHeight();
+		float Radius = AIPawn->GetCapsule()->GetScaledCapsuleRadius();
 
-	if (Distance > 300.0f + Radius)
-	{
-		FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
+		auto TargetCapsule = Cast<UCapsuleComponent>(Target->GetRootComponent());
+		if (IsValid(TargetCapsule))
+		{
+			TargetLocation.Z -= TargetCapsule->GetScaledCapsuleHalfHeight();
+			Radius += TargetCapsule->GetScaledCapsuleRadius();
+		}
+
+		// 두 점 사이 거리 구함
+		float Distance = FVector::Distance(AILocation, TargetLocation);
+
+		if (Distance > 300.0f + Radius)
+		{
+			FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
+		}
+		else
+		{
+			// Target을 바라보는 방향을 구함
+			FVector Dir = TargetLocation - AILocation;
+
+			// 크기가 1인 단위벡터로 만듦
+			Dir.Normalize();
+
+			// 방향을 회전으로 만듦
+			FRotator Rot = Dir.Rotation();
+
+			// auto AIRotation = AIPawn->GetActorRotation();
+			// AIPawn->SetActorRotation(FMath::RInterpTo(AIRotation, FRotator(0.0f, Rot.Yaw, 0.0f), DeltaSeconds, 1.0f));
+			AIPawn->SetActorRotation(FRotator(0.0f, Rot.Yaw, 0.0f));
+		}
 	}
-	else
-	{
-		// 회전
-	}
+	
 }
 
 void UBTTask_Attack::OnTaskFinished(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory,

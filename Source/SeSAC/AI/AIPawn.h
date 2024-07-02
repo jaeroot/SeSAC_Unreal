@@ -31,17 +31,27 @@ protected:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:
+	const FString& GetAIName() const
+	{
+		return mName;
+	}
+	
 	UCapsuleComponent* GetCapsule() const
 	{
 		return mCapsule;
 	}
 
-	virtual void SetAIType(EAIType Type);
-
 	EAIType GetAIType() const
 	{
 		return mAIType;
 	}
+
+	void SetAIName(const FString& Name)
+	{
+		mName = Name;
+	}
+
+	virtual void SetAIType(EAIType Type);
 
 	template <typename T>
 	void AddDeathDelegate(T* Object, void(T::*Func)())
@@ -65,6 +75,8 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	USkeletalMeshComponent* mMesh;
+
+	FString mName;
 
 	FAIDeathDelegate mDeathDelegate;
 

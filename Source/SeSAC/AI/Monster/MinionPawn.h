@@ -18,11 +18,15 @@ public:
 public:
 	virtual void SetAIType(EAIType Type) override;
 
+	virtual void Attack() override;
+
 protected:
 	virtual void BeginPlay() override;
-
+	
 public:
 
 protected:
 	UMonsterDefaultAnimTemplate* mMinionAnim;
+
+	UParticleSystem* mAttackParticle;
 };

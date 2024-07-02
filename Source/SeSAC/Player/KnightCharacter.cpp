@@ -51,6 +51,8 @@ AKnightCharacter::AKnightCharacter()
 		mNormalAttackHit = HitAsset.Object;
 	}
 
+	mJob = EPlayerJob::Knight;
+
 	// mWeaponBox->SetNotifyRigidBodyCollision(true);
 }
 

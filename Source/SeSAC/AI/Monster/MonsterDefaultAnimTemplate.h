@@ -34,6 +34,18 @@ public:
 	{
 		mMonsterAnim = Anim;
 	}
+
+	void SetAnimData(const FName& Key);
+
+protected:
+	UFUNCTION()
+	void AnimNotify_Attack();
+	
+	UFUNCTION()
+	void AnimNotify_AttackEnd();
+
+	UFUNCTION()
+	void AnimNotify_DeathEnd();
 	
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -44,4 +56,5 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TMap<FString, UBlendSpace*> mBlendSpaceMap;
+
 };

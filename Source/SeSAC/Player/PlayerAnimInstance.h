@@ -13,6 +13,34 @@ enum class EPlayerAnimType : uint8
 	Death
 };
 
+USTRUCT(BlueprintType)
+struct FPlayerAnimData : public FTableRowBase
+{
+	GENERATED_USTRUCT_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	EPlayerJob Job;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TObjectPtr<UAnimMontage> mAttackMontage;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TObjectPtr<UAnimMontage> mAttackRecoveryMontage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TArray<FName> mAttackSectionArray;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FName mAttackAirSection;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TMap<FString, UAnimSequence*> mSequenceMap;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TMap<FString, UBlendSpace*> mBlendSpaceMap;
+};
+
 
 UCLASS()
 class SESAC_API UPlayerAnimInstance : public UAnimInstance
