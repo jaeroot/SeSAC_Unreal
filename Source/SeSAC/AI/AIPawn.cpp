@@ -3,6 +3,10 @@
 
 #include "AIPawn.h"
 
+#include "AIController.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "SeSAC/AI/AIPatrolPoint.h"
+
 
 AAIPawn::AAIPawn()
 {
@@ -54,6 +58,50 @@ ETeamAttitude::Type AAIPawn::GetTeamAttitudeTowards(const AActor& Other) const
 		: ETeamAttitude::Neutral;
 }
 
+void AAIPawn::AddPatrolPoint(const TArray<AAIPatrolPoint*>& Array)
+{
+	int32 Count = Array.Num();
+
+	for (int32 i = 0; i < Count; i++)
+	{
+		mPatrolArray.Add(Cast<AActor>(Array[i]));
+	}
+	
+}
+
+void AAIPawn::AddPatrolStart(AActor* Actor)
+{
+	mPatrolArray.Add(Actor);
+}
+
+void AAIPawn::RegisterPatrolPoint()
+{
+	if (mPatrolArray.Num() == 0)
+	{
+		return;
+	}
+	
+	AAIController* Control = GetController<AAIController>();
+
+	if (IsValid(Control))
+	{
+		Control->GetBlackboardComponent()->SetValueAsObject(CMonsterDefaultKey::mPatrolPoint, mPatrolArray[mPatrolIndex]);
+
+		bool PatrolEnable = false;
+		if (mPatrolArray.Num() > 1)
+		{
+			PatrolEnable = true;
+		}
+
+		Control->GetBlackboardComponent()->SetValueAsBool(CMonsterDefaultKey::mPatrolEnable, PatrolEnable);
+	}
+}
+
+void AAIPawn::NextPatrolPoint()
+{
+	mPatrolIndex = (mPatrolIndex + 1) % mPatrolArray.Num();
+}
+
 void AAIPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -74,5 +122,23 @@ void AAIPawn::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
+	if (mPatrolArray.Num() == 0)
+	{
+		return;
+	}
 	
+	AAIController* Control = GetController<AAIController>();
+
+	if (IsValid(Control))
+	{
+		Control->GetBlackboardComponent()->SetValueAsObject(CMonsterDefaultKey::mPatrolPoint, mPatrolArray[mPatrolIndex]);
+
+		bool PatrolEnable = false;
+		if (mPatrolArray.Num() > 1)
+		{
+			PatrolEnable = true;
+		}
+
+		Control->GetBlackboardComponent()->SetValueAsBool(CMonsterDefaultKey::mPatrolEnable, PatrolEnable);
+	}
 }

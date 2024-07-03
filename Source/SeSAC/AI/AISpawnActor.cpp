@@ -71,6 +71,11 @@ void AAISpawnActor::Spawn()
 	
 	mSpawnActor = GetWorld()->SpawnActor<AAIPawn>(mSpawnClass, SpawnLocation, SpawnRotator);
 
+	mSpawnActor->AddPatrolStart(this);
+	mSpawnActor->AddPatrolPoint(mPatrolArray);
+
+	mSpawnActor->RegisterPatrolPoint();
+
 	mSpawnActor->AddDeathDelegate<ThisClass>(this, &AAISpawnActor::AIDeathDelegate);
 }
 

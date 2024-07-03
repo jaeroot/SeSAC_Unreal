@@ -16,7 +16,7 @@ CMonsterDataManager::CMonsterDataManager()
 	}
 
 	static ConstructorHelpers::FObjectFinder<UDataTable>
-		MonsterInfoTable(TEXT("/Game/AI/Monster/DT_MonsterAnim.DT_MonsterAnim"));
+		MonsterInfoTable(TEXT("/Game/AI/Monster/DT_MonsterInfo.DT_MonsterInfo"));
 
 	if (MonsterAnimTable.Succeeded())
 	{

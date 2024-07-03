@@ -39,7 +39,7 @@ AMinionPawn::AMinionPawn()
 		mAttackParticle = HitAsset.Object;
 	}
 
-	
+	mMonsterInfoKey = TEXT("Minion");
 }
 
 void AMinionPawn::BeginPlay()
@@ -49,17 +49,6 @@ void AMinionPawn::BeginPlay()
 	mMinionAnim = Cast<UMonsterDefaultAnimTemplate>(mMesh->GetAnimInstance());
 
 	mMinionAnim->SetAnimData(TEXT("Minion"));
-}
-
-float AMinionPawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,
-	AActor* DamageCauser)
-{
-	DamageAmount = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
-
-	SetAIType(EAIType::Death);
-	GetController<AAIController>()->GetBrainComponent()->StopLogic(TEXT("Death"));
-
-	return DamageAmount;
 }
 
 void AMinionPawn::Tick(float DeltaTime)

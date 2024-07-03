@@ -3,6 +3,7 @@
 
 #include "MonsterPawn.h"
 
+#include "BrainComponent.h"
 #include "MonsterController.h"
 #include "MonsterDataManager.h"
 #include "MonsterMovement.h"
@@ -50,7 +51,24 @@ float AMonsterPawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 {
 	DamageAmount = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 
-	
+	mHP -= DamageAmount;
+
+	if (mHP <= 0.0f)
+	{
+		SetAIType(EAIType::Death);
+
+		// 비헤이비어 트리 정지
+		AAIController* AIControl = GetController<AAIController>();
+
+		if (IsValid(AIControl))
+		{
+			AIControl->GetBrainComponent()->StopLogic(("Death"));
+		}
+
+		// Destroy();
+	}
+
+	return DamageAmount;
 }
 
 void AMonsterPawn::Tick(float DeltaTime)

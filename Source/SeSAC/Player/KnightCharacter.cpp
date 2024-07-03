@@ -118,7 +118,7 @@ void AKnightCharacter::AttackEnable()
 				FString::Printf(TEXT("Weapon Hit : %s"), *Result.ImpactPoint.ToString()));
 			
 			FDamageEvent DmgEvent;
-			Result.GetActor()->TakeDamage(10.0f, DmgEvent, GetController(), this);
+			Result.GetActor()->TakeDamage(50.0f, DmgEvent, GetController(), this);
 
 			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), mNormalAttackHit,
 				Result.ImpactPoint, Result.ImpactNormal.Rotation(), true);

@@ -32,7 +32,7 @@ AMonsterController::AMonsterController()
 	mSightConfig = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("SightConfig"));
 	mSightConfig->SightRadius = 3000.0f;
 	mSightConfig->LoseSightRadius = 3500.0f;
-	mSightConfig->PeripheralVisionAngleDegrees = 180.0f;
+	mSightConfig->PeripheralVisionAngleDegrees = 90.0f;
 	mSightConfig->DetectionByAffiliation.bDetectEnemies = true;
 	mSightConfig->DetectionByAffiliation.bDetectNeutrals = false;
 	mSightConfig->DetectionByAffiliation.bDetectFriendlies = false;
@@ -87,6 +87,8 @@ void AMonsterController::OnPossess(APawn* InPawn)
 			RunBehaviorTree(mAITree);
 		}
 	}
+
+	mAIPerception->RequestStimuliListenerUpdate();
 }
 
 void AMonsterController::OnUnPossess()

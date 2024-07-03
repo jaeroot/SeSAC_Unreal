@@ -17,6 +17,8 @@ class CMonsterDefaultKey
 public:
 	static FName mTarget;
 	static FName mAttackEnd;
+	static FName mPatrolPoint;
+	static FName mPatrolEnable;
 };
 
 

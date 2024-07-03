@@ -45,6 +45,5 @@ public:
 			delete mInst;
 			mInst = nullptr;
 		}
-
 	}
 };

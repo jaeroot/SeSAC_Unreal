@@ -6,6 +6,7 @@
 
 #include "AISpawnActor.generated.h"
 
+class AAIPatrolPoint;
 class AAIPawn;
 
 UCLASS()
@@ -47,4 +48,7 @@ protected:
 	float mSpawnTime = 0.0f;
 
 	float mCalculateSpawnTime = 0.0f;
+
+	UPROPERTY(EditAnywhere)
+	TArray<AAIPatrolPoint*> mPatrolArray;
 };

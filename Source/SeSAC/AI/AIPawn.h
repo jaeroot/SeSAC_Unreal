@@ -9,6 +9,7 @@
 #include "AIPawn.generated.h"
 
 
+class AAIPatrolPoint;
 class UMonsterDefaultAnimTemplate;
 DECLARE_MULTICAST_DELEGATE(FAIDeathDelegate);
 
@@ -67,6 +68,11 @@ public:
 
 	virtual ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other) const override;
 
+	void AddPatrolPoint(const TArray<AAIPatrolPoint*>& Array);
+	void AddPatrolStart(AActor* Actor);
+	void RegisterPatrolPoint();
+	void NextPatrolPoint();
+	
 public:
 
 protected:
@@ -82,5 +88,8 @@ protected:
 
 	uint8 mTeamID = 10;
 
-	EAIType mAIType;	
+	EAIType mAIType;
+
+	TArray<AActor*> mPatrolArray;
+	int32 mPatrolIndex = 1;
 };
