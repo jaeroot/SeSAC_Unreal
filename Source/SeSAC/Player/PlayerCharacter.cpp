@@ -30,6 +30,7 @@ APlayerCharacter::APlayerCharacter()
 	bUseControllerRotationYaw = false;
 	mArm->bUsePawnControlRotation = true;
 	
+	GetMesh()->bReceivesDecals = false;
 }
 
 void APlayerCharacter::BeginPlay()

@@ -22,6 +22,8 @@ AAIPawn::AAIPawn()
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 
 	bUseControllerRotationYaw = true;
+
+	mMesh->bReceivesDecals = false;
 }
 
 void AAIPawn::BeginPlay()
