@@ -30,6 +30,9 @@ protected:
 	
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
+private:
+	UFUNCTION()
+	void HitEnd();
 public:
 
 protected:
@@ -45,4 +48,7 @@ protected:
 	float mMPMax;
 	float mMoveSpeed;
 	float mAttackDistance;
+
+	FTimerHandle mHitTimer;
+	float mHitTime = 0.2f;
 };

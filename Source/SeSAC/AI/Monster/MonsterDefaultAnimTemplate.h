@@ -36,6 +36,7 @@ public:
 	}
 
 	void SetAnimData(const FName& Key);
+	void PlayMontage(const FString& Name);
 
 protected:
 	UFUNCTION()
@@ -47,6 +48,9 @@ protected:
 	UFUNCTION()
 	void AnimNotify_DeathEnd();
 	
+	UFUNCTION()
+	void AnimNotify_HitEnd();
+	
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	EMonsterDefaultAnim mMonsterAnim = EMonsterDefaultAnim::Idle;
@@ -57,4 +61,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TMap<FString, UBlendSpace*> mBlendSpaceMap;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TMap<FString, UAnimMontage*> mMontageMap;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	float mHitAlpha = 0.0f;
 };

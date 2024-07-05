@@ -30,6 +30,17 @@ void AAIPawn::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// MeshComponent가 가지고 있는 Material Element 수 만큼 반복하며 Dynamic Material을 만들어줌
+	int32 Count = mMesh->GetNumMaterials();
+	for (int32 i = 0; i < Count; i++)
+	{
+		UMaterialInstanceDynamic* Mtrl = mMesh->CreateDynamicMaterialInstance(i);
+
+		if (IsValid(Mtrl))
+		{
+			mMaterialDynamicArray.Add(Mtrl);
+		}
+	}
 }
 
 void AAIPawn::EndPlay(const EEndPlayReason::Type EndPlayReason)

@@ -20,6 +20,26 @@ void UMonsterDefaultAnimTemplate::SetAnimData(const FName& Key)
 	{
 		mSequenceMap = AnimData->mSequenceMap;
 		mBlendSpaceMap = AnimData->mBlendSpaceMap;
+		mMontageMap = AnimData->mMontageMap;
+	}
+}
+
+void UMonsterDefaultAnimTemplate::PlayMontage(const FString& Name)
+{
+	UAnimMontage** Montage = mMontageMap.Find(Name);
+
+	if (Montage)
+	{
+		if (!Montage_IsPlaying(*Montage))
+		{
+			if (Name == TEXT("Hit"))
+			{
+				mHitAlpha = 1.0f;
+			}
+			
+			Montage_SetPosition(*Montage, 0.0f);
+			Montage_Play(*Montage);
+		}
 	}
 }
 
@@ -45,4 +65,9 @@ void UMonsterDefaultAnimTemplate::AnimNotify_DeathEnd()
 	{
 		Monster->Destroy();
 	}
+}
+
+void UMonsterDefaultAnimTemplate::AnimNotify_HitEnd()
+{
+	mHitAlpha = 0.0f;
 }

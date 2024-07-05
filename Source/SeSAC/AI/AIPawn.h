@@ -92,4 +92,6 @@ protected:
 
 	TArray<AActor*> mPatrolArray;
 	int32 mPatrolIndex = 1;
+
+	TArray<UMaterialInstanceDynamic*> mMaterialDynamicArray;
 };

@@ -51,6 +51,16 @@ void AMinionPawn::BeginPlay()
 	mMinionAnim->SetAnimData(TEXT("Minion"));
 }
 
+float AMinionPawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,
+	AActor* DamageCauser)
+{
+	DamageAmount = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
+	mMinionAnim->PlayMontage(TEXT("Hit"));
+
+	return DamageAmount;
+}
+
 void AMinionPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);

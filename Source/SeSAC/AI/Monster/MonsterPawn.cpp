@@ -51,7 +51,7 @@ float AMonsterPawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 {
 	DamageAmount = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 
-	mHP -= DamageAmount;
+	mHP -= DamageAmount * 0.25f;
 
 	if (mHP <= 0.0f)
 	{
@@ -67,8 +67,28 @@ float AMonsterPawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 
 		// Destroy();
 	}
+	else
+	{
+		// Hit 처리
+		for (auto Mtrl : mMaterialDynamicArray)
+		{
+			Mtrl->SetScalarParameterValue(TEXT("HitEnable"), 1.0f);
+		}
+		
+		GetWorld()->GetTimerManager().SetTimer(mHitTimer, this, &AMonsterPawn::HitEnd, mHitTime);
+	}
 
 	return DamageAmount;
+}
+
+void AMonsterPawn::HitEnd()
+{
+	for (auto Mtrl : mMaterialDynamicArray)
+	{
+		Mtrl->SetScalarParameterValue(TEXT("HitEnable"), 0.0f);
+	}
+	
+	GetWorld()->GetTimerManager().ClearTimer(mHitTimer);
 }
 
 void AMonsterPawn::Tick(float DeltaTime)
