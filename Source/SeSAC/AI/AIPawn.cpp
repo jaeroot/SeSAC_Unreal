@@ -5,6 +5,7 @@
 
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "SeSAC/AI/AIPatrolPoint.h"
 
 
@@ -119,6 +120,27 @@ void AAIPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (mDissolveEnable)
+	{
+		mDissolveAcc += DeltaTime;
+
+		if (mDissolveAcc >= mDissolveTime)
+		{
+			mDissolveAcc = mDissolveTime;
+			mDissolve = -1.5f;
+
+			Destroy();
+		}
+		else
+		{
+			mDissolve = UKismetMathLibrary::MapRangeClamped(mDissolveAcc, 0.0, mDissolveTime, 1.5f, -1.5f);
+			
+			for (auto Mtrl : mMaterialDynamicArray)
+			{
+				Mtrl->SetScalarParameterValue(TEXT("Dissolve"), mDissolve);
+			}
+		}
+	}
 }
 
 float AAIPawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,

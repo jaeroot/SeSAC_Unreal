@@ -63,7 +63,7 @@ void UMonsterDefaultAnimTemplate::AnimNotify_DeathEnd()
 	auto Monster = Cast<AMonsterPawn>(TryGetPawnOwner());
 	if (IsValid(Monster))
 	{
-		Monster->Destroy();
+		Monster->SetDissolveEnalbe(true);
 	}
 }
 

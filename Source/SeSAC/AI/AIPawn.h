@@ -72,6 +72,11 @@ public:
 	void AddPatrolStart(AActor* Actor);
 	void RegisterPatrolPoint();
 	void NextPatrolPoint();
+
+	void SetDissolveEnalbe(bool Dissolve)
+	{
+		mDissolveEnable = Dissolve;
+	}
 	
 public:
 
@@ -94,4 +99,10 @@ protected:
 	int32 mPatrolIndex = 1;
 
 	TArray<UMaterialInstanceDynamic*> mMaterialDynamicArray;
+
+	float mDissolve = 1.5f;
+	bool mDissolveEnable = false;
+
+	float mDissolveTime = 2.0f;
+	float mDissolveAcc = 0.0f;
 };

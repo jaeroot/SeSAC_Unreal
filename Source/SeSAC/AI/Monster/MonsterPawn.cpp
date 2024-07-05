@@ -55,6 +55,11 @@ float AMonsterPawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 
 	if (mHP <= 0.0f)
 	{
+		for (auto Mtrl : mMaterialDynamicArray)
+		{
+			Mtrl->SetScalarParameterValue(TEXT("DissolveEnable"), 1.0f);
+		}
+		
 		SetAIType(EAIType::Death);
 
 		// 비헤이비어 트리 정지
