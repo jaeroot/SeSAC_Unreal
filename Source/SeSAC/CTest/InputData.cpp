@@ -140,3 +140,24 @@ UTestInputData::UTestInputData()
 		}
 	}
 }
+
+USelectInputData::USelectInputData()
+{
+	{
+		static ConstructorHelpers::FObjectFinder<UInputMappingContext>
+			Asset(TEXT("/Game/Input/IMC_Select.IMC_Select"));
+		if (Asset.Succeeded())
+		{
+			mDefaultContext = Asset.Object;
+		}
+	}
+	
+	{
+		static ConstructorHelpers::FObjectFinder<UInputAction>
+			Asset(TEXT("/Game/Input/IA_Click.IA_Click"));
+		if (Asset.Succeeded())
+		{
+			mSelect = Asset.Object;
+		}
+	}
+}

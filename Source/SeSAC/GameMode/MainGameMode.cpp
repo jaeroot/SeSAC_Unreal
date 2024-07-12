@@ -14,3 +14,56 @@ AMainGameMode::AMainGameMode()
 
 	CMonsterDataManager::GetInst()->Init();
 }
+
+void AMainGameMode::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
+{
+	Super::InitGame(MapName, Options, ErrorMessage);
+
+	
+}
+
+void AMainGameMode::PreLogin(const FString& Options, const FString& Address, const FUniqueNetIdRepl& UniqueId,
+	FString& ErrorMessage)
+{
+	
+}
+
+APlayerController* AMainGameMode::Login(UPlayer* NewPlayer, ENetRole InRemoteRole, const FString& Portal,
+	const FString& Options, const FUniqueNetIdRepl& UniqueId, FString& ErrorMessage)
+{
+	APlayerController* Controller = Super::Login(NewPlayer, InRemoteRole, Portal, Options, UniqueId, ErrorMessage);
+
+	int32 JobData = 0;
+	if (FParse::Value(*Options, TEXT("Job="), JobData))
+	{
+		EPlayerJob Job = static_cast<EPlayerJob>(JobData);
+
+		switch (Job) {
+		case EPlayerJob::None:
+			break;
+		case EPlayerJob::Knight:
+			DefaultPawnClass = AKnightCharacter::StaticClass();
+			UE_LOG(LogTemp, Warning, TEXT("기사 선택"));
+			break;
+		case EPlayerJob::Archer:
+			DefaultPawnClass = AKnightCharacter::StaticClass();
+			UE_LOG(LogTemp, Warning, TEXT("궁수 선택"));
+			break;
+		case EPlayerJob::Magician:
+			DefaultPawnClass = AKnightCharacter::StaticClass();
+			UE_LOG(LogTemp, Warning, TEXT("마법사 선택"));
+			break;
+		case EPlayerJob::Gunner:
+			DefaultPawnClass = AKnightCharacter::StaticClass();
+			UE_LOG(LogTemp, Warning, TEXT("거너 선택"));
+			break;
+		}
+	}
+
+	return Controller;
+}
+
+void AMainGameMode::PostLogin(APlayerController* NewPlayer)
+{
+	Super::PostLogin(NewPlayer);
+}

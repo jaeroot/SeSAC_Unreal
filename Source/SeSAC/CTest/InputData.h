@@ -43,3 +43,17 @@ public:
 	UInputAction* mShield = nullptr;
 	UInputAction* mTripleShot = nullptr;
 };
+
+UCLASS()
+class USelectInputData : public UObject
+{
+	GENERATED_BODY()
+
+public:
+	USelectInputData();
+
+public:
+	UInputMappingContext* mDefaultContext = nullptr;
+
+	UInputAction* mSelect = nullptr;
+};
