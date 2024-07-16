@@ -6,6 +6,9 @@
 #include "GameFramework/Pawn.h"
 #include "SelectPawn.generated.h"
 
+enum class ESelectPlayerAnim : uint8;
+class USelectPlayerAnimTemplate;
+
 UCLASS()
 class SESAC_API ASelectPawn : public APawn
 {
@@ -34,6 +37,8 @@ public:
 		return mJob;
 	}
 
+	void ChangeAnim(ESelectPlayerAnim Anim);
+
 protected:
 	UPROPERTY(VisibleAnywhere)
 	UCapsuleComponent* mCapsule;
@@ -43,5 +48,7 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	EPlayerJob mJob;
+
+	USelectPlayerAnimTemplate* mAnim;
 	
 };

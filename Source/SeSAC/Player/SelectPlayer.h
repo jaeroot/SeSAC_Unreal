@@ -6,6 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "SelectPlayer.generated.h"
 
+class UCharacterSelectWidget;
 struct FInputActionValue;
 
 UCLASS()
@@ -31,6 +32,9 @@ public:
 protected:
 	void ClickAction(const FInputActionValue& Value);
 
+	UFUNCTION()
+	void TransitionEnd();
+
 protected:
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* mRoot;
@@ -39,4 +43,13 @@ protected:
 	UCameraComponent* mCamera;
 
 	class ASelectPawn* mOnMouseActor;
+	class ASelectPawn* mOnSelectPawn = nullptr;
+
+	TSubclassOf<UCharacterSelectWidget> mWidgetClass;
+	UCharacterSelectWidget* mWidget;
+	
+	UPROPERTY(EditAnywhere)
+	TArray<AActor*> mCameraTransitionArray;
+
+	FTimerHandle mTransitionTimer;
 };

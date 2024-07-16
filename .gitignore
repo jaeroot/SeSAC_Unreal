@@ -8,6 +8,7 @@ Content/*
 !Content/AI/
 !Content/Materials/
 !Content/FrameTest/
+!Content/UI/
 
 
 # Visual Studio 2015 user specific files

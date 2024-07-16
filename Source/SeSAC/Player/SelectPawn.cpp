@@ -3,6 +3,7 @@
 
 #include "SelectPawn.h"
 
+#include "Select/SelectPlayerAnimTemplate.h"
 #include "SeSAC/CTest/InputData.h"
 
 // Sets default values
@@ -29,6 +30,7 @@ void ASelectPawn::BeginPlay()
 {
 	Super::BeginPlay();
 
+	mAnim = Cast<USelectPlayerAnimTemplate>(mMesh->GetAnimInstance());
 }
 
 // Called every frame
@@ -49,5 +51,10 @@ void ASelectPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 void ASelectPawn::OnMouse(bool Overlap)
 {
 	mMesh->SetRenderCustomDepth(Overlap);
+}
+
+void ASelectPawn::ChangeAnim(ESelectPlayerAnim Anim)
+{
+	mAnim->ChangeAnim(Anim);
 }
 

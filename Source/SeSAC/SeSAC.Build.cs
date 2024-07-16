@@ -15,7 +15,8 @@ public class SeSAC : ModuleRules
 			"Engine", 
 			"InputCore",
 			"EnhancedInput",
-			"AIModule"
+			"AIModule",
+			"UMG"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
