@@ -78,6 +78,16 @@ void UCharacterSelectWidget::SetSelectPawn(ASelectPawn* Pawn)
 	mOnSelectPawn = Pawn;
 }
 
+void UCharacterSelectWidget::SetPlayerImage(UMaterialInstance* Mtrl)
+{
+	mInfoWidget->SetPlayerImage(Mtrl);
+}
+
+void UCharacterSelectWidget::SetPlayerName(const FString& Name)
+{
+	mInfoWidget->SetPlayerName(Name);
+}
+
 FReply UCharacterSelectWidget::NativeOnFocusReceived(const FGeometry& InGeometry, const FFocusEvent& InFocusEvent)
 {
 	FReply result = Super::NativeOnFocusReceived(InGeometry, InFocusEvent);

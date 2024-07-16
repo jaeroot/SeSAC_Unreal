@@ -52,4 +52,7 @@ protected:
 	TArray<AActor*> mCameraTransitionArray;
 
 	FTimerHandle mTransitionTimer;
+
+	UPROPERTY(EditAnywhere)
+	TArray<UMaterialInstance*> mInfoMaterialArray;
 };

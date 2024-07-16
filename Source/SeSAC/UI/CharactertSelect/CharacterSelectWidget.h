@@ -33,6 +33,9 @@ protected:
 public:
 	void StartButtonEnable(bool Enable);
 	void SetSelectPawn(ASelectPawn* Pawn);
+
+	void SetPlayerImage(UMaterialInstance* Mtrl);
+	void SetPlayerName(const FString& Name);
 	
 protected:
 	UFUNCTION()

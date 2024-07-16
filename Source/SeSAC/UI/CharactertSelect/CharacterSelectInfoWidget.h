@@ -6,6 +6,8 @@
 #include "Blueprint/UserWidget.h"
 #include "CharacterSelectInfoWidget.generated.h"
 
+class UTextBlock;
+class UImage;
 /**
  * 
  */
@@ -16,4 +18,13 @@ class SESAC_API UCharacterSelectInfoWidget : public UUserWidget
 
 protected:
 	virtual void NativeConstruct() override;
+
+public:
+	void SetPlayerImage(UMaterialInstance* Mtrl);
+	void SetPlayerName(const FString& Name);
+
+protected:
+	UImage* mPlayerImage;
+
+	UTextBlock* mPlayerName;
 };

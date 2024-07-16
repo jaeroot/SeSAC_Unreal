@@ -136,18 +136,22 @@ void ASelectPlayer::ClickAction(const FInputActionValue& Value)
 			Index = 0;
 			break;
 		case EPlayerJob::Knight:
+			mWidget->SetPlayerName(TEXT("기사"));
 			Index = 0;
 			break;
 		case EPlayerJob::Archer:
 			Index = 0;
 			break;
 		case EPlayerJob::Magician:
+			mWidget->SetPlayerName(TEXT("마법사"));
 			Index = 1;
 			break;
 		case EPlayerJob::Gunner:
 			Index = 0;
 			break;
 		}
+
+		mWidget->SetPlayerImage(mInfoMaterialArray[Index]);
 		
 		GetController<APlayerController>()->SetViewTargetWithBlend(mCameraTransitionArray[Index], 2.0f, VTBlend_Cubic);
 
