@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "SeSAC/UI/UIInfo.h"
 #include "Blueprint/UserWidget.h"
 #include "CharacterSelectInfoWidget.generated.h"
 
