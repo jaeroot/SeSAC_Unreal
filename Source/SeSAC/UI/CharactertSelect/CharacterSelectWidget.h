@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "CharacterSelectWidget.generated.h"
 
+class UEditableTextBox;
 class UCharacterSelectInfoWidget;
 class ASelectPawn;
 /**
@@ -20,6 +21,7 @@ public:
 	
 protected:
 	UButton* mStartButton;
+	UEditableTextBox* mInputName;
 	UCharacterSelectInfoWidget* mInfoWidget;
 	
 

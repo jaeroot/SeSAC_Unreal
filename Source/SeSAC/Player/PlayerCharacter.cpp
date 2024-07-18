@@ -6,6 +6,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "PlayerAnimInstance.h"
+#include "SeSACPlayerState.h"
 #include "SeSAC/CTest/InputData.h"
 
 APlayerCharacter::APlayerCharacter()
@@ -25,6 +26,22 @@ APlayerCharacter::APlayerCharacter()
 	// set Camera
 	mCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	mCamera->SetupAttachment(mArm);
+
+	// set face camera
+	mFaceCapture = CreateDefaultSubobject<USceneCaptureComponent2D>(TEXT("FaceCapture"));
+	mFaceCapture->SetupAttachment(GetMesh());
+	mFaceCapture->SetRelativeLocation(FVector(0.0f, 90.0f, 160.0f));
+	mFaceCapture->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
+
+	static ConstructorHelpers::FObjectFinder<UTextureRenderTarget2D>
+		FaceTexture(TEXT("/Game/UI/Main/RT_PlayerImage.RT_PlayerImage"));
+	if (FaceTexture.Succeeded())
+	{
+		mFaceCapture->TextureTarget = FaceTexture.Object;
+	}
+	mFaceCapture->PrimitiveRenderMode = ESceneCapturePrimitiveRenderMode::PRM_UseShowOnlyList;
+	mFaceCapture->CaptureSource = SCS_SceneColorSceneDepth;
+	mFaceCapture->ShowOnlyActors.Add(this);
 
 	// set Control Rotation
 	bUseControllerRotationYaw = false;
@@ -76,6 +93,20 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 void APlayerCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
+}
+
+float APlayerCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,
+	AActor* DamageCauser)
+{
+	DamageAmount = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
+	ASeSACPlayerState* State = GetPlayerState<ASeSACPlayerState>();
+	if (IsValid(State))
+	{
+		State->Damage(DamageAmount);
+	}
+	
+	return DamageAmount;
 }
 
 void APlayerCharacter::MoveAction(const FInputActionValue& Value)

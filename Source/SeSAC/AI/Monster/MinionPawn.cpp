@@ -136,7 +136,7 @@ void AMinionPawn::Attack()
 				FString::Printf(TEXT("Minion Hit : %s"), *Result.ImpactPoint.ToString()));
 			
 			FDamageEvent DmgEvent;
-			Result.GetActor()->TakeDamage(10.0f, DmgEvent, GetController(), this);
+			Result.GetActor()->TakeDamage(mAttack, DmgEvent, GetController(), this);
 
 			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), mAttackParticle,
 				Result.ImpactPoint, Result.ImpactNormal.Rotation(), true);

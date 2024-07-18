@@ -4,6 +4,8 @@
 #include "CharacterSelectWidget.h"
 
 #include "CharacterSelectInfoWidget.h"
+#include "Components/EditableTextBox.h"
+#include "SeSAC/SeSACGameInstance.h"
 #include "SeSAC/Player/SelectPawn.h"
 
 void UCharacterSelectWidget::NativeOnInitialized()
@@ -30,6 +32,8 @@ void UCharacterSelectWidget::NativeConstruct()
 		mStartButton->OnClicked.AddDynamic(this, &UCharacterSelectWidget::StartButtonClick);
 	}
 
+	mInputName = Cast<UEditableTextBox>(GetWidgetFromName(TEXT("InputName")));
+
 	mInfoWidget = Cast<UCharacterSelectInfoWidget>(GetWidgetFromName(TEXT("WB_CharacterSelectInfo")));
 
 	UE_LOG(LogTemp, Warning, TEXT("NativeConstruct"));
@@ -53,8 +57,12 @@ void UCharacterSelectWidget::StartButtonClick()
 	{
 		return;
 	}
+
+	USeSACGameInstance* GameInst = GetGameInstance<USeSACGameInstance>();
+
+	FText NameText = mInputName->GetText();
 	
-	FString Option = FString::Printf(TEXT("Job=%d"), static_cast<int32>(mOnSelectPawn->GetJob()));
+	FString Option = FString::Printf(TEXT("Job=%d PlayerName=%s "), static_cast<int32>(mOnSelectPawn->GetJob()), *NameText.ToString());
 	
 	UGameplayStatics::OpenLevel(GetWorld(), TEXT("Main"), true, Option);
 }

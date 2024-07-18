@@ -22,6 +22,8 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void PossessedBy(AController* NewController) override;
 
+	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -39,6 +41,16 @@ protected:
 	virtual void NormalAttack();
 	
 public:
+	const FString& GetPlayerName() const
+	{
+		return mPlayerName;
+	}
+
+	void SetPlayerName(const FString& Name)
+	{
+		mPlayerName = Name;
+	}
+	
 	void SetTeamID(uint8 TeamID)
 	{
 		mTeamID = TeamID;
@@ -61,6 +73,9 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* mCamera;
 
+	UPROPERTY(VisibleAnywhere)
+	USceneCaptureComponent2D* mFaceCapture;
+
 	TObjectPtr<UPlayerAnimInstance> mAnimInstance;
 	
 	UPROPERTY(VisibleAnywhere)
@@ -69,4 +84,6 @@ protected:
 	uint8 mTeamID = 1;
 
 	EPlayerJob mJob;
+
+    FString	mPlayerName;
 };
