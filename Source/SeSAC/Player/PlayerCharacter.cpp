@@ -7,7 +7,10 @@
 #include "EnhancedInputSubsystems.h"
 #include "PlayerAnimInstance.h"
 #include "SeSACPlayerState.h"
+#include "Components/WidgetComponent.h"
+#include "SeSAC/SeSACGameInstance.h"
 #include "SeSAC/CTest/InputData.h"
+#include "SeSAC/UI/Main/CharacterHeadInfoWidget.h"
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -48,6 +51,26 @@ APlayerCharacter::APlayerCharacter()
 	mArm->bUsePawnControlRotation = true;
 	
 	GetMesh()->bReceivesDecals = false;
+
+
+	// widget
+	mHeadInfoWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("HeadInfo"));
+	mHeadInfoWidget->SetupAttachment(GetMesh());
+	static ConstructorHelpers::FClassFinder<UCharacterHeadInfoWidget>
+		HeadWidgetClass(TEXT("/Game/UI/Main/WB_CharacterHeadInfo.WB_CharacterHeadInfo_C"));
+	if (HeadWidgetClass.Succeeded())
+	{
+		mHeadInfoWidget->SetWidgetClass(HeadWidgetClass.Class);
+	}
+	
+	mHeadInfoWidget->SetRelativeLocation(FVector(0.0f, 0.0f, 180.0f));
+	mHeadInfoWidget->SetPivot(FVector2D(0.5, 1.0));
+	mHeadInfoWidget->SetDrawSize(FVector2D(200.0, 80.0));
+	mHeadInfoWidget->SetWidgetSpace(EWidgetSpace::Screen);
+	mHeadInfoWidget->bVisibleInReflectionCaptures = false;
+	mHeadInfoWidget->bVisibleInRealTimeSkyCaptures = false;
+	mHeadInfoWidget->bReceivesDecals = false;
+	mHeadInfoWidget->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void APlayerCharacter::BeginPlay()
@@ -63,6 +86,20 @@ void APlayerCharacter::BeginPlay()
 
 		const auto InputData = GetDefault<UDefaultInputData>();
 		Subsystem->AddMappingContext(InputData->mDefaultContext, 0);
+	}
+
+	mHeadInfo = Cast<UCharacterHeadInfoWidget>(mHeadInfoWidget->GetWidget());
+
+	USeSACGameInstance* GameInst = GetWorld()->GetGameInstance<USeSACGameInstance>();
+	if (IsValid(GameInst))
+	{
+		mHeadInfo->SetPlayerName(GameInst->GetPlayerName());
+	}
+
+	ASeSACPlayerState* State = GetPlayerState<ASeSACPlayerState>();
+	if (IsValid(State))
+	{
+		State->AddHPDelegate<UCharacterHeadInfoWidget>(mHeadInfo, &UCharacterHeadInfoWidget::SetHPPercent);
 	}
 }
 

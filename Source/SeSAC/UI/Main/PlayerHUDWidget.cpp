@@ -6,6 +6,7 @@
 #include "Components/Image.h"
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
+#include "SeSAC/Player/SeSACPlayerState.h"
 
 void UPlayerHUDWidget::NativeConstruct()
 {
@@ -14,7 +15,13 @@ void UPlayerHUDWidget::NativeConstruct()
 	mImage = Cast<UImage>(GetWidgetFromName(TEXT("PlayerImage")));
 	mPlayerName = Cast<UTextBlock>(GetWidgetFromName(TEXT("PlayerName")));
 	mHPBar = Cast<UProgressBar>(GetWidgetFromName(TEXT("HPBar")));
-	mMPBar = Cast<UProgressBar>(GetWidgetFromName(TEXT("MPBar"))); 
+	mMPBar = Cast<UProgressBar>(GetWidgetFromName(TEXT("MPBar")));
+
+	ASeSACPlayerState* State = GetOwningPlayerState<ASeSACPlayerState>();
+	if (IsValid(State))
+	{
+		State->AddHPDelegate<UPlayerHUDWidget>(this, &UPlayerHUDWidget::SetHPPercent);
+	}
 }
 
 void UPlayerHUDWidget::SetPlayerName(const FString& Name)

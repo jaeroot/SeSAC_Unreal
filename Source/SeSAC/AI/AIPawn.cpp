@@ -5,8 +5,10 @@
 
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Components/WidgetComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "SeSAC/AI/AIPatrolPoint.h"
+#include "SeSAC/UI/Main/CharacterHeadInfoWidget.h"
 
 
 AAIPawn::AAIPawn()
@@ -25,6 +27,27 @@ AAIPawn::AAIPawn()
 	bUseControllerRotationYaw = true;
 
 	mMesh->bReceivesDecals = false;
+
+
+	
+	// widget
+	mHeadInfoWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("HeadInfo"));
+	mHeadInfoWidget->SetupAttachment(mMesh);
+	static ConstructorHelpers::FClassFinder<UCharacterHeadInfoWidget>
+		HeadWidgetClass(TEXT("/Game/UI/Main/WB_CharacterHeadInfo.WB_CharacterHeadInfo_C"));
+	if (HeadWidgetClass.Succeeded())
+	{
+		mHeadInfoWidget->SetWidgetClass(HeadWidgetClass.Class);
+	}
+	
+	mHeadInfoWidget->SetRelativeLocation(FVector(0.0f, 0.0f, 180.0f));
+	mHeadInfoWidget->SetPivot(FVector2D(0.5, 1.0));
+	mHeadInfoWidget->SetDrawSize(FVector2D(200.0, 80.0));
+	mHeadInfoWidget->SetWidgetSpace(EWidgetSpace::Screen);
+	mHeadInfoWidget->bVisibleInReflectionCaptures = false;
+	mHeadInfoWidget->bVisibleInRealTimeSkyCaptures = false;
+	mHeadInfoWidget->bReceivesDecals = false;
+	mHeadInfoWidget->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void AAIPawn::BeginPlay()
@@ -42,6 +65,10 @@ void AAIPawn::BeginPlay()
 			mMaterialDynamicArray.Add(Mtrl);
 		}
 	}
+
+	
+
+	mHeadInfo = Cast<UCharacterHeadInfoWidget>(mHeadInfoWidget->GetWidget());
 }
 
 void AAIPawn::EndPlay(const EEndPlayReason::Type EndPlayReason)

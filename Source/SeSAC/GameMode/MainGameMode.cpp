@@ -65,7 +65,7 @@ APlayerController* AMainGameMode::Login(UPlayer* NewPlayer, ENetRole InRemoteRol
 		}
 	}
 
-	FString PlayerName;
+	FString PlayerName = TEXT("Player");
 	if (FParse::Value(*Options, TEXT("PlayerName="), PlayerName))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("PlayerName = %s"), *PlayerName);

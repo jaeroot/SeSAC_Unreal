@@ -7,6 +7,7 @@
 #include "Blueprint/UserWidget.h"
 #include "MainWidget.generated.h"
 
+class UInventoryListWidget;
 class UPlayerHUDWidget;
 /**
  * 
@@ -25,5 +26,21 @@ public:
 	void SetMPPercent(float Percent);
 
 protected:
+	UFUNCTION()
+	void CharacterStateButtonClick();
+	UFUNCTION()
+	void InventoryButtonClick();
+	UFUNCTION()
+	void SkillButtonClick();
+	UFUNCTION()
+	void OptionButtonClick();
+
+protected:
 	UPlayerHUDWidget* mPlayerHUD;
+	UInventoryListWidget* mInventory;
+
+	UButton* mCharacterStateButton;
+	UButton* mInventoryButton;
+	UButton* mSkillButton;
+	UButton* mOptionButton;
 };

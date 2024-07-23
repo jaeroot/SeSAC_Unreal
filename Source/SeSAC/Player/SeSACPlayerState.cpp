@@ -107,13 +107,19 @@ bool ASeSACPlayerState::Damage(float Attack)
 		mHP = 0.0f;
 		result = true;
 	}
-	
-	AInGamePlayerController* Controller = GetPawn()->GetController<AInGamePlayerController>();
-	if (IsValid(Controller))
+
+	if (mHPDelegate.IsBound())
 	{
 		float Percent = mHP / mHPMax;
-		Controller->SetHPPercent(Percent);
+		mHPDelegate.Broadcast(Percent);
 	}
+	
+	// AInGamePlayerController* Controller = GetPawn()->GetController<AInGamePlayerController>();
+	// if (IsValid(Controller))
+	// {
+	// 	float Percent = mHP / mHPMax;
+	// 	Controller->SetHPPercent(Percent);
+	// }
 	
 	return result;
 }

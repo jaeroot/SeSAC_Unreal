@@ -7,6 +7,7 @@
 #include "MonsterController.h"
 #include "MonsterDataManager.h"
 #include "MonsterMovement.h"
+#include "SeSAC/UI/Main/CharacterHeadInfoWidget.h"
 
 
 AMonsterPawn::AMonsterPawn()
@@ -29,6 +30,7 @@ void AMonsterPawn::BeginPlay()
 
 	if (Info)
 	{
+		mName = Info->mName;
 		mAttack = Info->mAttack;
 		mDefense = Info->mDefense;
 		mHP = Info->mHP;
@@ -38,6 +40,7 @@ void AMonsterPawn::BeginPlay()
 		mMoveSpeed = Info->mMoveSpeed;
 		mAttackDistance = Info->mAttackDistance;
 	}
+	mHeadInfo->SetPlayerName(mName);
 }
 
 void AMonsterPawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -55,6 +58,7 @@ float AMonsterPawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 
 	if (mHP <= 0.0f)
 	{
+		mHP = 0.0f;
 		for (auto Mtrl : mMaterialDynamicArray)
 		{
 			Mtrl->SetScalarParameterValue(TEXT("DissolveEnable"), 1.0f);
@@ -82,6 +86,8 @@ float AMonsterPawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 		
 		GetWorld()->GetTimerManager().SetTimer(mHitTimer, this, &AMonsterPawn::HitEnd, mHitTime);
 	}
+
+	mHeadInfo->SetHPPercent(mHP / mHPMax);
 
 	return DamageAmount;
 }

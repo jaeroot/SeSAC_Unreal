@@ -7,6 +7,8 @@
 #include "GameFramework/Character.h"
 #include "PlayerCharacter.generated.h"
 
+class UCharacterHeadInfoWidget;
+class UWidgetComponent;
 class UPlayerAnimInstance;
 struct FInputActionValue;
 
@@ -80,6 +82,11 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere)
 	UParticleSystem* mNormalAttackHit;
+
+	UPROPERTY(VisibleAnywhere)
+	UWidgetComponent* mHeadInfoWidget;
+
+	UCharacterHeadInfoWidget* mHeadInfo;
 
 	uint8 mTeamID = 1;
 

@@ -6,9 +6,8 @@
 #include "GameFramework/PlayerState.h"
 #include "SeSACPlayerState.generated.h"
 
-/**
- * 
- */
+DECLARE_MULTICAST_DELEGATE_OneParam(FHPDelegate, float);
+
 UCLASS()
 class SESAC_API ASeSACPlayerState : public APlayerState
 {
@@ -65,6 +64,15 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	int32 mGold;
+
+	FHPDelegate mHPDelegate;
+
+public:
+	template <typename T>
+	void AddHPDelegate(T* Obj, void (T::* Func)(float))
+	{
+		mHPDelegate.AddUObject(Obj, Func);
+	}
 
 
 private:

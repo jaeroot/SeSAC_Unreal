@@ -9,6 +9,8 @@
 #include "AIPawn.generated.h"
 
 
+class UCharacterHeadInfoWidget;
+class UWidgetComponent;
 class AAIPatrolPoint;
 class UMonsterDefaultAnimTemplate;
 DECLARE_MULTICAST_DELEGATE(FAIDeathDelegate);
@@ -86,6 +88,11 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	USkeletalMeshComponent* mMesh;
+
+	UPROPERTY(VisibleAnywhere)
+	UWidgetComponent* mHeadInfoWidget;
+
+	UCharacterHeadInfoWidget* mHeadInfo;
 
 	FString mName;
 
