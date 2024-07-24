@@ -6,7 +6,7 @@
 #include "SeSAC/UI/UIInfo.h"
 #include "SeSAC/GameInfo.h"
 #include "Blueprint/UserWidget.h"
-#include "InventoryListEntryWidget.generated.h"
+#include "InventoryTileEntryWidget.generated.h"
 
 class UTextBlock;
 class UImage;
@@ -14,7 +14,7 @@ class UImage;
  * 
  */
 UCLASS()
-class SESAC_API UInventoryListEntryWidget : public UUserWidget, public IUserObjectListEntry
+class SESAC_API UInventoryTileEntryWidget : public UUserWidget, public IUserObjectListEntry
 {
 	GENERATED_BODY()
 
@@ -27,7 +27,6 @@ public:
 
 protected:
 	UImage* mIcon;
-	UTextBlock* mNameText;
 	UTextBlock* mCountText;
 	UImage* mSelect;
 };

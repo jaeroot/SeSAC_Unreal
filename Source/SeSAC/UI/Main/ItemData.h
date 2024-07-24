@@ -17,11 +17,15 @@ class SESAC_API UItemData : public UObject
 
 	friend class UInventoryListWidget;
 	friend class UInventoryListEntryWidget;
+	
+	friend class UInventoryTileWidget;
+	friend class UInventoryTileEntryWidget;
 
 private:
 	FString mItemName;
 	int32 mItemCount;
 	UTexture2D* mIcon;
-
+	bool mOnMouse = false;
+	bool mSelect = false;
 	
 };

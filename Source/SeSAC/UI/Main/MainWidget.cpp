@@ -4,6 +4,7 @@
 #include "MainWidget.h"
 
 #include "InventoryListWidget.h"
+#include "InventoryTileWidget.h"
 #include "PlayerHUDWidget.h"
 
 void UMainWidget::NativeConstruct()
@@ -12,6 +13,7 @@ void UMainWidget::NativeConstruct()
 
 	mPlayerHUD = Cast<UPlayerHUDWidget>(GetWidgetFromName(TEXT("WB_PlayerHUD")));
 	mInventory = Cast<UInventoryListWidget>(GetWidgetFromName(TEXT("WB_InventoryList")));
+	mInventoryTile = Cast<UInventoryTileWidget>(GetWidgetFromName(TEXT("WB_InventoryTile")));
 	
 	mCharacterStateButton = Cast<UButton>(GetWidgetFromName(TEXT("CharacterStateButton")));
 	mCharacterStateButton->OnClicked.AddDynamic(this, &UMainWidget::CharacterStateButtonClick);
@@ -61,6 +63,14 @@ void UMainWidget::InventoryButtonClick()
 
 void UMainWidget::SkillButtonClick()
 {
+	if (mInventoryTile->GetVisibility() == ESlateVisibility::Collapsed)
+	{
+		mInventoryTile->SetVisibility(ESlateVisibility::Visible);
+	}
+	else
+	{
+		mInventoryTile->SetVisibility(ESlateVisibility::Collapsed);
+	}
 }
 
 void UMainWidget::OptionButtonClick()

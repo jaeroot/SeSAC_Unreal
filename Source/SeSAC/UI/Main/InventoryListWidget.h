@@ -7,6 +7,7 @@
 #include "Blueprint/UserWidget.h"
 #include "InventoryListWidget.generated.h"
 
+class UItemData;
 class UListView;
 /**
  * 
@@ -29,8 +30,16 @@ protected:
 	UFUNCTION()
 	void ListItemHovered(UObject* Item, bool Hovered);
 
+	UFUNCTION()
+	void ListItemSelect(UObject* Item);
+
+	UFUNCTION()
+	void ListItemDoubleClick(UObject* Item);
+
 protected:
 	UButton* mTitleBar;
 	UButton* mCloseButton;
 	UListView* mInventoryList;
+
+	UItemData* mSelectItem = nullptr;
 };

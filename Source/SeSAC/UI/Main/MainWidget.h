@@ -7,6 +7,7 @@
 #include "Blueprint/UserWidget.h"
 #include "MainWidget.generated.h"
 
+class UInventoryTileWidget;
 class UInventoryListWidget;
 class UPlayerHUDWidget;
 /**
@@ -38,6 +39,7 @@ protected:
 protected:
 	UPlayerHUDWidget* mPlayerHUD;
 	UInventoryListWidget* mInventory;
+	UInventoryTileWidget* mInventoryTile;
 
 	UButton* mCharacterStateButton;
 	UButton* mInventoryButton;

@@ -1,30 +1,28 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "InventoryListEntryWidget.h"
+#include "InventoryTileEntryWidget.h"
 
 #include "ItemData.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
 
-void UInventoryListEntryWidget::NativeConstruct()
+void UInventoryTileEntryWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
 	mIcon = Cast<UImage>(GetWidgetFromName(TEXT("Icon")));
-	mNameText = Cast<UTextBlock>(GetWidgetFromName(TEXT("NameText")));
-	mCountText = Cast<UTextBlock>(GetWidgetFromName(TEXT("CountText")));
+	mCountText = Cast<UTextBlock>(GetWidgetFromName(TEXT("Count")));
 	mSelect = Cast<UImage>(GetWidgetFromName(TEXT("Select")));
 }
 
-void UInventoryListEntryWidget::NativeOnListItemObjectSet(UObject* ListItemObject)
+void UInventoryTileEntryWidget::NativeOnListItemObjectSet(UObject* ListItemObject)
 {
 	UItemData* Data = Cast<UItemData>(ListItemObject);
 
 	if (IsValid(Data))
 	{
 		mIcon->SetBrushFromTexture(Data->mIcon);
-		mNameText->SetText(FText::FromString(Data->mItemName));
 		mCountText->SetText(FText::FromString(FString::Printf(TEXT("%d"), Data->mItemCount)));
 
 		if (Data->mSelect)
@@ -42,7 +40,7 @@ void UInventoryListEntryWidget::NativeOnListItemObjectSet(UObject* ListItemObjec
 	}
 }
 
-void UInventoryListEntryWidget::SetMouseState(EEntryWidgetMouseState State)
+void UInventoryTileEntryWidget::SetMouseState(EEntryWidgetMouseState State)
 {
 	switch (State)
 	{
