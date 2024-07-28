@@ -46,3 +46,99 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float mAttackDistance;	
 };
+
+UENUM(BlueprintType)
+enum class EQuestType : uint8
+{
+	Main,
+	Sub
+};
+
+UENUM(BlueprintType)
+enum class EQuestClearType : uint8
+{
+	Monster,
+	Item
+};
+
+USTRUCT(BlueprintType)
+struct FQuestClearData
+{
+	GENERATED_BODY()
+
+public:	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	EQuestClearType Type;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FString ClearName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	int32 ClearCount;
+};
+
+USTRUCT(BlueprintType)
+struct FQuestInfo : public FTableRowBase
+{
+	GENERATED_USTRUCT_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	EQuestType QuestType;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FString Name;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FString Content;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	int32 Level;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TArray<FQuestClearData> ClearArray;
+};
+
+USTRUCT(BlueprintType)
+struct FQuestClearUseData
+{
+	GENERATED_BODY()
+
+public:	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	EQuestClearType Type;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FString ClearName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	int32 ClearCount;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	int32 ClearCountMax;
+};
+
+USTRUCT(BlueprintType)
+struct FQuestInfoData
+{
+	GENERATED_USTRUCT_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	bool QuestEnable = true;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	EQuestType QuestType;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FString Name;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FString Content;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	int32 Level;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TArray<FQuestClearUseData> ClearArray;
+};

@@ -20,12 +20,35 @@ class SESAC_API UItemData : public UObject
 	
 	friend class UInventoryTileWidget;
 	friend class UInventoryTileEntryWidget;
+	
+public:
+	UItemData();
 
 private:
 	FString mItemName;
-	int32 mItemCount;
-	UTexture2D* mIcon;
+	FString mItemContent;
+	int32 mItemCount = 0;
+	UTexture2D* mIcon = nullptr;
 	bool mOnMouse = false;
 	bool mSelect = false;
+
+private:
+	UDataTable* mItemInfoTable = nullptr;
 	
+};
+
+USTRUCT()
+struct FItemInfoTable : public FTableRowBase
+{
+	GENERATED_USTRUCT_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FString Name;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FString ItemContent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UTexture2D* Icon;
 };
